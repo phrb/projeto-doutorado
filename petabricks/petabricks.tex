@@ -1,0 +1,108 @@
+\documentclass[a4paper, 11pt, twoside]{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{a4wide}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{makeidx}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage[margin=0.85in]{geometry}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\doublespacing
+
+\begin{document}
+
+\hypersetup{backref,pdfpagemode=FullScreen,colorlinks=true}
+
+\title{PetaBricks}
+\author{Pedro Bruel}
+\maketitle
+
+%\input{./title.tex}
+
+%\tableofcontents
+%\newpage
+
+%\begin{abstract}
+%\line(1,0){350}
+%\line(1,0){350}
+%\end{abstract}
+
+\section*{Introdução}
+
+Encontram-se na literatura diversos de métodos e ferramentas para otimização de
+código ~\cite{whaley1998,whaley2005} 
+que, considerando a rápida mudança e a grande variedade de arquiteturas de 
+computador, visam minimizar o esforço associado ao desenvolvimento e 
+manutenção de código portável, funcional e eficiente, além de explorar de forma
+mais completa o paralelismo potencial de arquiteturas modernas com múltiplos 
+\emph{cores}, cada vez mais ubíquas.
+
+Otimizar um programa pode envolver modelagens da arquitetura alvo 
+~\cite{aho2006,cooper2011,yotov2003,brewer1995}, ou buscas empíricas no 
+espaço de possíveis soluções, onde algoritmos diferentes que solucionam um 
+mesmo problema são compilados e executados na arquitetura alvo, e têm o 
+desempenho comparado para se encontrar a solução com melhor desempenho 
+~\cite{vuduc2004,lagoudakis2000,thomas2005,williams2009,yu2004}. 
+~\cite{yotov2003} faz uma comparação entre otimização por busca 
+empírica e por modelagem, ~\cite{vuduc2004} apresenta um modelo estatístico 
+para auxílio no processo de busca, 
+
+O sistema PetaBricks ~\cite{ansel2009petabricks, ansel2014phd, ansel:xrds:2010}
+consiste em uma linguagem, um compilador, e um ambiente de execução,
+e seu objetivo é encontrar combinações algorítmicas que tenham o melhor 
+desempenho na arquitetura alvo, através de uma busca empírica no espaço
+de soluções definido pelo programador.
+
+A linguagem PetaBricks (\emph{.pbcc}) facilita esse processo de 
+otimização, pois permite expor ao compilador as escolhas algorítmicas para 
+solução de um problema e suas ordens de execução válidas. O programa é 
+compilado para C++ e então passa pelo \emph{autotuner} 
+~\cite{ansel2011efficient}, um algoritmo genético que gera e testa diferentes 
+combinações, produzindo uma configuração otimizada para execução na 
+arquitetura alvo.
+
+\section*{Autotuning}
+
+\section*{Linguagem}
+
+Tomando como exemplo o problema da ordenação de vetores, um programa na
+linguagem do PetaBricks pode utilizar a primitiva \emph{either...or} (figura 1)
+ou os conceitos de \emph{transform} e \emph{rule} (figura 2) para determinar
+o espaço de algoritmos que podem ser combinados para gerar uma solução 
+eficiente.
+
+A primitiva \emph{either...or} permite definir explicitamente um espaço
+de algoritmos, e cabe ao \emph{autotuner} selecionar uma dentre as cláusulas
+do \emph{either...or} a cada vez que a primitiva é executada.
+
+Uma \emph{transform} é análoga a uma função, contendo código que pode
+ser chamado por outras \emph{transforms}, código em outras linguagens
+ou da linha de comando. O cabeçalho de uma \emph{transform} deve composto
+dos argumentos \emph{from}, \emph{to} e \emph{through}, que correspondem
+à entrada, saída e intermediários usados na \emph{transform}.
+
+As possíveis escolhas de algoritmos feitas pelo programador são expostas 
+em \emph{rules} dentro de uma \emph{transform}, que definem um algoritmo
+para tratar determinada região de dados. O cabeçalho de uma \emph{rule} deve
+conter argumentos para entrada, saída, e possíveis restrições sua para 
+aplicação, codificados pelas primitivas \emph{from}, \emph{to} e \emph{where}.
+
+\section*{Compilador}
+
+\section*{Exemplos}
+
+\newpage
+\bibliographystyle{plain}
+\bibliography{petabricks}
+
+\end{document}
