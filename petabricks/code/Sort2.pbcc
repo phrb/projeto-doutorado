@@ -1,0 +1,16 @@
+function Sort
+to out[n]
+from in[n]
+{
+  either {
+  InsertionSort(out, in);
+  } or {
+  QuickSort(out, in);
+  } or {
+  MergeSort(out, in);
+  } or {
+  RadixSort(out, in);
+  } or {
+  BitonicSort(out, in);
+  }   
+}

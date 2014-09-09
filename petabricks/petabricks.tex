@@ -14,16 +14,66 @@
 \usepackage{makeidx}
 \usepackage{hyperref}
 \usepackage{setspace}
+\usepackage{listings}
 \usepackage[margin=0.85in]{geometry}
 
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 \doublespacing
+\graphicspath{{./img/}}
+
+\usepackage{tikz}
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+    decorations.pathreplacing,decorations.pathmorphing,shapes,%
+    matrix,shapes.symbols}
+
+\tikzset{
+>=stealth',
+  punktchain/.style={
+    rectangle, 
+    rounded corners, 
+    % fill=black!10,
+    draw=black, very thick,
+    text width=8em, 
+    minimum height=3em, 
+    text centered, 
+    on chain},
+  fillchain/.style={
+    rectangle, 
+    rounded corners, 
+    fill=blue!30,
+    draw=black, very thick,
+    text width=8em, 
+    minimum height=3em, 
+    text centered, 
+    on chain},
+  line/.style={draw, thick, <-},
+  element/.style={
+    tape,
+    top color=white,
+    bottom color=blue!50!black!60!,
+    minimum width=8em,
+    draw=blue!40!black!90, very thick,
+    text width=8em, 
+    minimum height=3.5em, 
+    text centered, 
+    on chain},
+  every join/.style={->, thick,shorten >=1pt},
+  decoration={brace},
+  tuborg/.style={decorate},
+  tubnode/.style={midway, right=2pt},
+}
+
+\lstset{
+    basicstyle=\footnotesize,
+    morekeywords={either,or,transform,rule,to,from,through,function},
+    frame=L,
+}
 
 \begin{document}
 
 \hypersetup{backref,pdfpagemode=FullScreen,colorlinks=true}
 
-\title{PetaBricks}
+\title{Introdução ao Sistema PetaBricks}
 \author{Pedro Bruel}
 \maketitle
 
@@ -37,69 +87,147 @@
 %\line(1,0){350}
 %\end{abstract}
 
-\section*{Introdução}
+\section{Introdução}
 
 Encontram-se na literatura diversos de métodos e ferramentas para otimização de
-código ~\cite{whaley1998,whaley2005} 
-que, considerando a rápida mudança e a grande variedade de arquiteturas de 
-computador, visam minimizar o esforço associado ao desenvolvimento e 
+código que, considerando a rápida mudança e a grande variedade de arquiteturas 
+de computador, visam minimizar o esforço associado ao desenvolvimento e 
 manutenção de código portável, funcional e eficiente, além de explorar de forma
 mais completa o paralelismo potencial de arquiteturas modernas com múltiplos 
 \emph{cores}, cada vez mais ubíquas.
 
-Otimizar um programa pode envolver modelagens da arquitetura alvo 
-~\cite{aho2006,cooper2011,yotov2003,brewer1995}, ou buscas empíricas no 
-espaço de possíveis soluções, onde algoritmos diferentes que solucionam um 
-mesmo problema são compilados e executados na arquitetura alvo, e têm o 
-desempenho comparado para se encontrar a solução com melhor desempenho 
-~\cite{vuduc2004,lagoudakis2000,thomas2005,williams2009,yu2004}. 
-~\cite{yotov2003} faz uma comparação entre otimização por busca 
-empírica e por modelagem, ~\cite{vuduc2004} apresenta um modelo estatístico 
-para auxílio no processo de busca, 
+Otimizar um programa pode envolver modelagens da arquitetura 
+ou buscas empíricas no espaço de possíveis soluções. No processo
+de busca empírica, alguns compiladores realizam uma calibragem dos parâmetros 
+de compilação ~\cite{whaley1998,yotov2003} para a arquitetura alvo, e utilizam 
+essa calibragem para gerar código otimizado para essa arquitetura. Outros 
+trabalhos ~\cite{goldman2012framework,mitcsail-tr:2014,vuduc2004} propõe uma 
+abordagem diferente, onde são geradas e executadas variadas
+combinações de algoritmos que resolvem um mesmo problema, comparando seus 
+desempenhos para selecionar a melhor combinação para uma dada arquitetura.
+Yotov et al.~\cite{yotov2003} compara a otimização por busca empírica e por 
+modelagem, apresentando um modelo com desempenho comparável à busca empírica.
+Vuduc et al.~\cite{vuduc2004} apresenta e compara alguns
+modelos estatísticos que auxiliam no processo de busca empírica. 
 
-O sistema PetaBricks ~\cite{ansel2009petabricks, ansel2014phd, ansel:xrds:2010}
+O sistema PetaBricks ~\cite{ansel2009petabricks, ansel2014phd, 
+ansel:xrds:2010, mitcsail-tr:2014}
 consiste em uma linguagem, um compilador, e um ambiente de execução,
 e seu objetivo é encontrar combinações algorítmicas que tenham o melhor 
-desempenho na arquitetura alvo, através de uma busca empírica no espaço
+desempenho na arquitetura alvo, através de uma busca empírica num espaço
 de soluções definido pelo programador.
 
-A linguagem PetaBricks (\emph{.pbcc}) facilita esse processo de 
-otimização, pois permite expor ao compilador as escolhas algorítmicas para 
+A linguagem PetaBricks (\emph{.pbcc}) facilita o processo de 
+otimização por busca, expondo ao compilador as escolhas algorítmicas para 
 solução de um problema e suas ordens de execução válidas. O programa é 
-compilado para C++ e então passa pelo \emph{autotuner} 
-~\cite{ansel2011efficient}, um algoritmo genético que gera e testa diferentes 
-combinações, produzindo uma configuração otimizada para execução na 
-arquitetura alvo.
+compilado para a linguagem C++ e então passa pelo \emph{autotuner} 
+~\cite{ansel2011efficient}, que utiliza um algoritmo genético para gerar e 
+testar diferentes combinações, produzindo uma configuração otimizada para 
+execução na arquitetura alvo.
 
-\section*{Autotuning}
-
-\section*{Linguagem}
+\section{Linguagem}
 
 Tomando como exemplo o problema da ordenação de vetores, um programa na
-linguagem do PetaBricks pode utilizar a primitiva \emph{either...or} (figura 1)
-ou os conceitos de \emph{transform} e \emph{rule} (figura 2) para determinar
-o espaço de algoritmos que podem ser combinados para gerar uma solução 
-eficiente.
+linguagem do sistema PetaBricks pode utilizar a primitiva \emph{either...or} 
+(Figura ~\ref{fig:sort2pbcc}) ou os conceitos de \emph{transform} e \emph{rule}
+(Figura ~\ref{fig:sortpbcc}) para determinar o espaço de algoritmos que podem 
+ser combinados para gerar uma solução eficiente.
 
 A primitiva \emph{either...or} permite definir explicitamente um espaço
 de algoritmos, e cabe ao \emph{autotuner} selecionar uma dentre as cláusulas
 do \emph{either...or} a cada vez que a primitiva é executada.
 
+\begin{figure}[H]
+    \centering
+    \lstinputlisting{./code/Sort2.pbcc}
+    \caption{Sort2.pbcc}
+    \label{fig:sort2pbcc}
+\end{figure}
+
 Uma \emph{transform} é análoga a uma função, contendo código que pode
-ser chamado por outras \emph{transforms}, código em outras linguagens
-ou da linha de comando. O cabeçalho de uma \emph{transform} deve composto
-dos argumentos \emph{from}, \emph{to} e \emph{through}, que correspondem
-à entrada, saída e intermediários usados na \emph{transform}.
+ser chamado por outras \emph{transforms}, por código em outras linguagens
+ou pela linha de comando. O cabeçalho de uma \emph{transform} pode ser composto
+dos argumentos \emph{from}, \emph{to} e \emph{through}, que representam a
+memória correspondente à entrada, saída e intermediários usados na 
+\emph{transform}.
 
 As possíveis escolhas de algoritmos feitas pelo programador são expostas 
 em \emph{rules} dentro de uma \emph{transform}, que definem um algoritmo
-para tratar determinada região de dados. O cabeçalho de uma \emph{rule} deve
-conter argumentos para entrada, saída, e possíveis restrições sua para 
-aplicação, codificados pelas primitivas \emph{from}, \emph{to} e \emph{where}.
+para tratar determinada região de dados. O cabeçalho de uma \emph{rule} pode
+conter argumentos para variáveis de entrada, saída, e possíveis restrições sua 
+para aplicação, codificados pelas primitivas \emph{from}, \emph{to} e 
+\emph{where}.
 
-\section*{Compilador}
+No código da Figura ~\ref{fig:sortpbcc} são definidas diversas \emph{rules}
+para o \emph{MergeSort} de subvetores de tamanhos diferentes. Cada regra
+para ordenar subvetores deve estar definida em \emph{transforms} presentes
+no código original, ou incluídas de outros arquivos.
 
-\section*{Exemplos}
+\begin{figure}[H]
+    \lstinputlisting[firstline=1, lastline=24]{./code/Sort.pbcc}
+    ...
+    \lstinputlisting[firstline=40, lastline=55]{./code/Sort.pbcc}
+    \centering
+    \caption{Sort.pbcc}
+    \label{fig:sortpbcc}
+\end{figure}
+
+\section{Compilador}
+
+O compilador do PetaBricks contém três componentes principais: um 
+compilador fonte-para-fonte da linguagem PetaBricks para C++; um 
+\emph{autotuner}; e uma biblioteca de execução utilizada pelo código gerado.
+Esses componentes permitem ao sistema PetaBricks decidir quais algoritmos 
+utilizar, como distribuir computações e dados nos rescursos disponíveis, e como
+explorar o paralelismo do código. A Figura ~\ref{fig:petabricks-overview} 
+ilustra as relações entre esses componentes e os dados que utilizam no processo
+de compilação.
+
+O compilador realiza a análise sintática do código
+fonte, determina as regiões onde cada regra pode ser aplicada, analisa
+os grafos de dependências do programa e gera código em C++.
+
+O código gerado é usado pelo autotuner, dando início ao processo de busca no 
+espaço das escolhas algorítmicas definidas no código. Diferentes versões
+do programa serão geradas e executadas, contendo combinações de parâmetros de
+compilação e algoritmos diferentes, e produzirão arquivos de configuração que
+podem servir de parâmetro para a continuação do processo de busca ou para gerar
+um arquivo executável final já otimizado.
+
+\begin{figure}[H]
+    \begin{tikzpicture}
+        [node distance=.8cm,
+        start chain=going right]
+            \node[fillchain, join] (compiler) {Compilador};
+            \begin{scope}[start branch=peta]
+                \node[punktchain, on chain=going above] (pbcc) {Código \emph{.pbcc}};
+            \end{scope}
+            \node[punktchain, join] (cpp) {Código \emph{C++}};
+            \node[punktchain, join] (bin) {Binário};
+            \begin{scope}[start branch=tuner]
+                \node[fillchain, on chain=going above] (auto) {Autotuner};
+            \end{scope}
+            \node[punktchain, join] (exe) {Execução};
+            \begin{scope}[start branch=conf]
+                \node[punktchain, on chain=going above] (arqconf) {Arquivo de Configuração};
+            \end{scope}
+            \begin{scope}[start branch=env]
+                \node[fillchain, on chain=going below] (envexe) {Ambiente de Execução};
+            \end{scope}
+            \draw[|-,-|,->, thick,] (arqconf.south) |-+(0,-1em)-| (exe.north);
+            \draw[|-,-|,->, thick,] (envexe.north) |-+(0,0)-| (exe.south);
+            \draw[|-,-|,<->, thick,] (bin.north) |-+(0,2em)-| (auto.south);
+            \draw[|-,-|,<->, thick,] (auto.north) |-+(0,2em)-| (arqconf.north);
+            \draw[|-,-|,->, thick,] (pbcc.south) |-+(0,0)-| (compiler.north);
+    \end{tikzpicture}
+    \centering
+    \caption{Estrutura do Sistema PetaBricks}
+    \label{fig:petabricks-overview}
+\end{figure}
+
+\section{Autotuning}
+
+\section{Exemplos}
 
 \newpage
 \bibliographystyle{plain}
