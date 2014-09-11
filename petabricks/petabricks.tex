@@ -136,21 +136,20 @@ em seus conhecimentos das arquiteturas alvo e resultados de testes que realiza
 durante o desenvolvimento. 
 
 Dadas a heterogeneidade das arquiteturas de computador modernas e sua rápida 
-taxa de mudança, o trabalho de produzir implementações portáveis e eficientes,
-feito por compiladores ou programadores, fica cada vez mais dependente de
-conhecimentos específicos sobre um processador, e motiva o desenvolvimento de
-técnicas automáticas de seleção das melhores implementações para solução
-de um problema, isto é, o \emph{autotuning} de um conjunto de 
-soluções possíveis.
+taxa de mudança, o trabalho de produzir implementações portáveis e eficientes 
+dependerá cada vez mais conhecimentos específicos sobre um processador,
+motivando o desenvolvimento de técnicas automáticas de seleção das melhores
+implementações para solução de um problema, isto é, o \emph{autotuning} de um
+conjunto de soluções possíveis.
 
 O problema do \emph{autotuning} pode ser descrito da seguinte forma~\cite{ansel2011efficient}:
 
-Considere um conjunto de algoritmos que resolvem uma instância de um problema,
-$Algoritmos_s$, onde $s$ é um seletor para esses algoritmos, e consiste em
+Considere o conjunto $A$ de algoritmos que resolvem instâncias de um dado problema.
+O seletor $s$ de algoritmos em $A$ especifica um programa, e consiste em
 $\overrightarrow{C_s} = [c_{s,1},\dots,c_{s,m-1}] \cup \overrightarrow{A_s} = [\alpha_{s,1},\dots,\alpha_{s,m}]$, 
-com $\overrightarrow{C_s}$ representando os intervalos relacionados ao tamanho da
-entrada do programa, associados aos algoritmos representados por elementos de
-$\overrightarrow{A_s}$, que são índices de $Algoritmos_s$.
+onde $\overrightarrow{C_s}$ representa os intervalos relacionados a tamanhos da
+entrada para o programa especificado por $s$, e que determinam a execução dos 
+algoritmos representados por elementos de $\overrightarrow{A_s} \subseteq A$.
 
 Além disso, $c_{s,0} = min(n)$ e $c_{s,m} = max(n)$,
 onde $n$ é o tamanho da entrada para a instância sendo selecionada, e $m$ 
@@ -165,9 +164,9 @@ entrada de tamanho $n$, selecione um inteiro $i$, onde:
     c_{s^*,i}, c_{s^*,i-1} \in \overrightarrow{C_{s^*}}
 \end{equation*}
 
-E especifique o programa $P_{s^*}$, cujo tempo de execução $t_{s^*}$, calculado
-executando-se o programa na arquitura $H$, com entrada de tamanho $n$, e
-representado por $T(P_{s^*},H,n)$, deve satisfazer:
+E especifique o programa $P_{s^*}$, cujo tempo de execução $t_{s^*}$ é calculado
+executando-se o programa na arquitura $H$, com entrada de tamanho $n$,
+e é representado por $T(P_{s^*},H,n)$, deve satisfazer:
 
 \begin{equation*}
     t_{s^*} = T(P_{s^*},H,n) \leq T(P_s,H,n), \quad \forall s \in S
@@ -178,14 +177,14 @@ são discutidos na Seção~\ref{sec:autotuner}.
 
 Em geral, o tempo de execução dos programas especificados pelos seletores
 é proporcional ao tamanho de entrada \textemdash se não for o caso, o
-\emph{autotuning} não tem mesmo utilidade \textemdash, mas diminui conforme
+\emph{autotuning} não tem mesmo utilidade \textemdash mas diminui conforme
 se encontram melhores soluções. Apesar disso, o tempo de execução sofre
 interferência de muitos fatores, como por exemplo outros processos executados
 pelo sistema operacional, que competem por recursos computacionais.
 
-Essas propriedades de avaliação do desempenho de soluções encontradas pelo
-\emph{autotuner} contribuem para o desenvolvimento e a escolha dos métodos
-que serão utilizados no sistema.
+Essas propriedades de avaliação do desempenho da soluções para um problema 
+contribuem para o desenvolvimento e a escolha dos métodos
+que serão utilizados no \emph{autotuner}.
 
 \section{Linguagem}
 
