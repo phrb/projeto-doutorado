@@ -1,0 +1,26 @@
+transform SortSubArray
+from IN[n], Pos
+to OUT[n], TEMP[n]
+{
+  rule QuickSort
+  to (OUT out, TEMP temp) from (IN in, Pos p)
+  {
+    QuicksortSubArray(out, temp, in, p);
+  }
+  rule InsertionSort
+  to (OUT out, TEMP temp) from (IN in)
+  {
+    InsertionsortSubArray(out, in);
+  }
+}
+
+transform Sort
+from IN[n]
+to OUT[n]
+{
+  to (OUT out) from (IN in) using(temp[n])
+  {
+    Copy1D(out, in);
+    SortSubArray(out, temp, in, 60);
+  }
+}

@@ -1,0 +1,447 @@
+\documentclass[a4paper, 11pt]{article}
+
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{a4wide}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{makeidx}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{indentfirst}
+\usepackage[nottoc]{tocbibind}
+\usepackage{listings}
+\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry}
+\usepackage[square, sort, comma, numbers]{natbib}
+
+\singlespacing
+\graphicspath{{./img/}}
+\makeindex
+
+\usepackage{tikz}
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+    decorations.pathreplacing,decorations.pathmorphing,shapes,%
+    matrix,shapes.symbols}
+
+\tikzset{
+>=stealth',
+  punktchain/.style={
+    rectangle, 
+    rounded corners, 
+    % fill=black!10,
+    draw=black, very thick,
+    text width=8em, 
+    minimum height=3em, 
+    text centered, 
+    on chain},
+  fillchain/.style={
+    rectangle, 
+    rounded corners, 
+    fill=blue!30,
+    draw=black, very thick,
+    text width=8em, 
+    minimum height=3em, 
+    text centered, 
+    on chain},
+  line/.style={draw, thick, <-},
+  element/.style={
+    tape,
+    top color=white,
+    bottom color=blue!50!black!60!,
+    minimum width=8em,
+    draw=blue!40!black!90, very thick,
+    text width=8em, 
+    minimum height=3.5em, 
+    text centered, 
+    on chain},
+  every join/.style={->, thick,shorten >=1pt},
+  decoration={brace},
+  tuborg/.style={decorate},
+  tubnode/.style={midway, right=2pt},
+}
+
+\lstset{
+    basicstyle=\footnotesize,
+    morekeywords={either,or,transform,rule,to,from,through,function},
+    frame=L,
+}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\begin{document}
+
+\hypersetup{backref,pdfpagemode=FullScreen,colorlinks=true}
+
+\thispagestyle{empty}
+\begin{center}
+    \vspace*{2.3cm}
+    \textbf{\Large{Título Provisório}}\\
+
+    \vskip 1cm
+
+    \textsc{Projeto de Pesquisa}
+
+    \vskip 3cm
+
+    \begin{minipage}{.4\linewidth}
+        \begin{flushleft}
+            \emph{Autor}: \\Pedro \textsc{Bruel}\\
+            \emph{e-mail}: \\pedro.bruel@gmail.com
+        \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{.4\linewidth}
+        \begin{flushright}
+            \emph{Orientador}: \\Prof. Dr. Alfredo \textsc{Goldman}\\
+            \emph{e-mail}: \\gold@ime.usp.br
+        \end{flushright}
+    \end{minipage}
+
+    \vskip 3cm
+    \begin{abstract}
+    \rule{\linewidth}{.1mm} \\
+    \rule{\linewidth}{.1mm} \\
+    \end{abstract}
+
+    \vfill
+
+    \normalsize{São Paulo, \today}
+\end{center}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introdução}
+
+Encontram-se na literatura diversos de métodos e ferramentas para otimização 
+automática de código que visam minimizar o esforço associado ao desenvolvimento
+e manutenção de código portável, funcional e eficiente. Motivados pela grande
+variedade e rápida mudança das arquiteturas de computador atuais, esses 
+trabalhos procuram explorar de forma mais completa o paralelismo inerente a
+elas, proveniente de múltiplos núcleos de processamento, 
+diferentes arquiteturas de memória distribuída, compartilhada (de acesso 
+uniforme, não uniforme), e auxílio de coprocessadores.
+
+A otimização automática de um programa pode envolver modelagens da
+arquitetura alvo --- exigindo conhecimentos específicos sobre o problema e a
+máquina --- ou buscas empíricas no espaço de possíveis soluções --- encontrando
+a melhor otimização através de técnicas de aprendizado de máquina e medidas de
+desempenho.
+
+No processo de busca empírica, alguns compiladores realizam uma calibragem dos 
+parâmetros de compilação (\citet{whaley1998,yotov2003}) para a arquitetura 
+alvo, e utilizam essa calibragem para gerar código otimizado para essa 
+arquitetura. 
+
+Outros trabalhos (\citet{goldman2012framework,mitcsail-tr:2014,
+vuduc2004}) propõe uma abordagem diferente, onde são geradas e executadas 
+variadas combinações de algoritmos que resolvem um mesmo problema, comparando 
+seus desempenhos para selecionar a melhor combinação para uma dada arquitetura.
+~\citet{yotov2003} compara a otimização por busca empírica e por 
+modelagem, apresentando um modelo com desempenho comparável à busca empírica.
+~\citet{vuduc2004} apresenta e compara alguns
+modelos estatísticos que auxiliam no processo de busca empírica.
+
+Nesta seção são discutidos o problema da otimização automática
+(Seção \ref{sec:autotuning}) e os sistemas PetaBricks~\cite{ansel2014phd}
+(Seção \ref{sec:peta}) e AMF~\cite{goldman2012framework} (seção \ref{sec:amf}).
+O restante do projeto é organizado da seguinte forma: A Seção \ref{sec:obj} 
+apresenta os objetivos do projeto. Na Seção \ref{sec:met}, discute-se a 
+metodologia de desenvolvimento e avaliação de resultados. A Seção 
+\ref{sec:chrono} apresenta um plano de trabalho e um cronograma para seu 
+desenvolvimento. Finalmente, a Seção \ref{sec:trabrel} apresenta um 
+levantamento bibliográfico com os principais trabalhos relacionados à proposta
+do projeto.
+
+\subsection{Autotuning} \label{sec:autotuning}
+
+Ao desenvolver uma solução portável e eficiente para um problema, o
+programador deve considerar, entre outros fatores, as possibilidades
+de implementação dos algoritmos que resolvem o problema, e as otimizações e 
+parâmetros disponibilizados pelo compilador.
+A escolha da melhor implementação de um algoritmo e do melhor conjunto de 
+valores para parâmetros de compilação depende em grande parte das arquiteturas 
+e ambientes em que se pretende executar o programa, e o programador realiza 
+essa escolha baseando-se em seus conhecimentos das arquiteturas alvo e 
+resultados de testes que realiza durante o desenvolvimento.
+
+No entanto, as arquiteturas de computador atuais variam muito, num grande 
+espectro de, por exemplo, tamanhos de \emph{RAM},
+velocidades e modos de acesso a níves de memória e armazenamento, número de 
+núcleos no processador, e coprocessadores --- \emph{GPU}s, entre outros 
+--- que apresentam ainda sua própria gama de variação.
+
+Devido a essa heterogeneidade e sua rápida taxa de mudança, 
+o trabalho de produzir implementações portáveis e eficientes 
+dependerá cada vez mais de conhecimentos específicos sobre uma arquitetura,
+motivando o desenvolvimento de técnicas automáticas de seleção das melhores
+implementações para solução de um problema, isto é, o \emph{autotuning} de um
+conjunto de soluções possíveis.
+
+Como exemplo para a seleção de implementações diferentes para um mesmo
+problema, considere a multiplicação de matrizes. O melhor algoritmo
+para multiplicação de duas matrizes depende, por exemplo, do tamanho dessas
+matrizes, do tempo de acesso e tamanho de cache do processador, e das 
+possibilidades para exploração do paralelismo da arquitetura.
+Para ilustrar a seleção de valores para parâmetros de compilação, considere
+a escolha de opções, ou \emph{flags}, de compilação.
+~\citet{tartara2013heuristics} apresentam um algoritmo para seleção de 
+heurísticas de compilação, e utilizam a seleção de \emph{flags}
+do GCC para demonstrar o algoritmo, implementado em extensões do PetaBricks e 
+do próprio GCC. 
+O alto número de \emph{flags} disponíveis numa dada arquitetura e as interações
+complexas entre as diferentes opções fazem do conjunto dos problemas de 
+seleção do melhor algoritmo para multiplicação de matrizes e de seleção de 
+\emph{flags} de compilador, um bom candidato para solução por 
+\emph{autotuning}.
+
+O problema do \emph{autotuning}, através do processo de escolha algorítmica,
+pode ser descrito da seguinte forma (\citet{ansel2011efficient}):
+
+Considere o conjunto $A$ de algoritmos que resolvem instâncias de um dado 
+problema, o conjunto $S$ de seletores para esses algoritmos, e o conjunto $S_t$
+de seletores para parâmetros de compilação e configuração no conjunto $B$.
+O seletor $s \in S$ de algoritmos em $A$ consiste em 
+$\overrightarrow{C_s} = [c_{s,1},\dots,c_{s,m-1}] \cup \overrightarrow{A_s} = 
+[\alpha_{s,1},\dots,\alpha_{s,m-1}]$,
+onde cada $c_{s,i} \in \overrightarrow{C_s}$ representa um intervalo 
+relacionado a um tamanho de entrada para a instância, e 
+determina a execução do algoritmo $\alpha_{s,i} \in \overrightarrow{A_s}, 
+\quad \alpha_{s,i} \in A$ neste intervalo. 
+Além disso, $min(n) \leq c_{s,1} < n < c_{s,m-1} \leq max(n)$,
+onde $n$ é o tamanho da entrada para a instância sendo selecionada, e $m$ 
+é determinado pela instância.
+Assim, um seletor $s \in S$ seleciona algoritmos da seguinte forma:
+
+\begin{equation*}
+    SELECT(s, i) = \alpha_{s,i} \in \overrightarrow{A_{s}} \quad | \quad c_{s,i} \in \overrightarrow{C_{s}},
+    \quad\quad 1 \leq i < m
+\end{equation*}
+
+Além de um seletor para algoritmos, podemos especificar seletores $s_t \in S_t$,
+compostos de $\overrightarrow{B_{s_t}} = [\beta_{s_t,1},\dots,\beta_{s_t,b-1}] 
+\cup \overrightarrow{V_{s_t}} = [v_{s_t,1},\dots,v_{s_t,b-1}]$,
+onde cada $\beta_{s_t,j} \in \overrightarrow{B_{s_t}}$ representa um parâmetro
+de compilação ou configuração para a instância do problema, que assume o valor
+especificado por $v_{s_t,i} \in \overrightarrow{V_{s_t}}$.
+O seletor $s_t$ seleciona um valor para cada parâmetro de compilação e 
+configuração definido para a instância:
+
+\begin{equation*}
+    SELECT_{\beta}(s_t, j) = v_{s_t,j} \in \overrightarrow{V_{s_t}} \quad | \quad \beta_{s_t,j} \in \overrightarrow{B_{s_t}},
+    \quad\quad 1 \leq j < b
+\end{equation*}
+
+Com os seletores $s$ e $s_t$, podemos especificar um programa
+$P_{s,s_t}$, e o objetivo de um \emph{autotuner} ideal é encontrar
+os seletores $s^*,s_{t}^{*}$ que especifiquem o programa $P_{s^*,s_{t}^{*}}$, 
+ou $P^*$, cujo tempo de execução $t^*$ --- representado por $T(P^*,H,n)$ --- 
+é calculado executando-se o programa na arquitura $H$, com entrada de tamanho
+$n$, e deve satisfazer:
+
+\begin{equation*}
+    t^* = T(P^*,H,n) \leq T(P_{s^*,s_{t}^{*}},H,n), \quad \forall s \in S, \quad \forall s_t \in S_t
+\end{equation*}
+
+Alguns detalhes do algoritmo para o \emph{autotuning} utilizado pelo PetaBricks
+são discutidos na Seção~\ref{sec:autotuner}.
+
+Em geral, o tempo de execução dos programas especificados pelos seletores
+é proporcional ao tamanho da entrada, mas diminui conforme
+se encontram melhores soluções. Apesar disso, o tempo de execução sofre
+interferência de muitos fatores, como por exemplo outros processos executados
+pelo sistema operacional, que competem por recursos computacionais.
+Essas propriedades de avaliação do desempenho da soluções para um problema 
+contribuem para o desenvolvimento e a escolha dos métodos
+que serão utilizados no \emph{autotuner}.
+
+\subsection{PetaBricks} \label{sec:peta}
+
+O sistema PetaBricks (\citet{ansel2009petabricks, ansel2014phd, 
+ansel:xrds:2010, mitcsail-tr:2014})
+consiste em uma linguagem, um compilador, e um ambiente de execução,
+e seu objetivo é encontrar combinações algorítmicas que tenham o melhor 
+desempenho na arquitetura alvo, através de uma busca empírica num espaço
+de soluções definido pelo programador.
+
+A linguagem PetaBricks (\emph{.pbcc}) facilita o processo de 
+otimização por busca, expondo ao compilador as escolhas algorítmicas para 
+solução de um problema e suas ordens de execução válidas. O programa é 
+compilado para a linguagem C++ e então passa pelo \emph{autotuner} 
+(\citet{ansel2011efficient}), que utiliza um algoritmo genético para gerar e 
+testar diferentes combinações, produzindo uma configuração otimizada para 
+execução na arquitetura alvo.
+
+\subsubsection{Linguagem}
+
+Tomando como exemplo o problema da ordenação de vetores, um programa na
+linguagem do sistema PetaBricks pode utilizar a primitiva \emph{either...or} 
+(Figura~\ref{fig:sort2pbcc}) ou os conceitos de \emph{transform} e \emph{rule}
+(Figura~\ref{fig:sortpbcc}) para determinar o espaço de algoritmos que podem 
+ser combinados para gerar uma solução eficiente.
+
+Uma \emph{transform} é análoga a uma função, contendo código que pode
+ser chamado por outras \emph{transforms}, por código em outras linguagens
+ou pela linha de comando. O cabeçalho de uma \emph{transform} pode ser composto
+dos argumentos \emph{from}, \emph{to} e \emph{through}, que representam a
+memória correspondente à entrada, saída e intermediários usados na 
+\emph{transform}.
+As possíveis escolhas de algoritmos feitas pelo programador são expostas 
+em \emph{rules} dentro de uma \emph{transform}, que definem um algoritmo
+para tratar determinada região de dados. O cabeçalho de uma \emph{rule} pode
+conter argumentos para variáveis de entrada, saída, e possíveis restrições sua 
+para aplicação, codificados pelas primitivas \emph{from}, \emph{to} e 
+\emph{where}.
+
+Na \emph{transform} SortSubArray, no código da Figura~\ref{fig:sortpbcc}, são 
+definidas diversas \emph{rules} para a ordenação de subvetores, que
+são utilizadas pela \emph{transform} Sort para ordenar um vetor. Após a
+compilação, o resultado é um programa que executa uma combinação dos dois
+métodos de ordenação implementados, de acordo com o tamanho do subvetor a
+ser ordenado, e dependente da máquina onde foi compilado. No entanto, esperamos
+que o programa execute a regra QuickSort para subvetores grandes, e a 
+regra InsertionSort quando o tamanho for menor, por conta de características
+inerentes a esses algoritmos.
+
+A primitiva \emph{either...or} permite definir explicitamente um espaço
+de algoritmos, e cabe ao \emph{autotuner} selecionar uma dentre as cláusulas
+do \emph{either...or} a cada vez que a primitiva é executada.
+
+\begin{figure}[H]
+    \centering
+    \lstinputlisting{./code/Sort.pbcc}
+    \caption{Sort.pbcc}
+    \label{fig:sortpbcc}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \lstinputlisting{./code/Sort2.pbcc}
+    \caption{Sort2.pbcc}
+    \label{fig:sort2pbcc}
+\end{figure}
+
+\subsubsection{Compilador}
+
+\begin{figure}[H]
+    \begin{tikzpicture}
+        [node distance=.8cm,
+        start chain=going right]
+            \node[fillchain, join] (compiler) {Compilador};
+            \begin{scope}[start branch=peta]
+                \node[punktchain, on chain=going above] (pbcc) {Código \emph{.pbcc}};
+            \end{scope}
+            \node[punktchain, join] (cpp) {Código C++};
+            \node[punktchain, join] (bin) {Binário};
+            \begin{scope}[start branch=tuner]
+                \node[fillchain, on chain=going above] (auto) {Autotuner};
+            \end{scope}
+            \node[punktchain, join] (exe) {Execução};
+            \begin{scope}[start branch=conf]
+                \node[punktchain, on chain=going above] (arqconf) {Arquivo de Configuração};
+            \end{scope}
+            \begin{scope}[start branch=env]
+                \node[fillchain, on chain=going below] (envexe) {Ambiente de Execução};
+            \end{scope}
+            \draw[|-,-|,->, thick,] (arqconf.south) |-+(0,-1em)-| (exe.north);
+            \draw[|-,-|,->, thick,] (envexe.north) |-+(0,0)-| (exe.south);
+            \draw[|-,-|,<->, thick,] (bin.north) |-+(0,2em)-| (auto.south);
+            \draw[|-,-|,<->, thick,] (auto.north) |-+(0,2em)-| (arqconf.north);
+            \draw[|-,-|,->, thick,] (pbcc.south) |-+(0,0)-| (compiler.north);
+    \end{tikzpicture}
+    \centering
+    \caption{Estrutura do Sistema PetaBricks}
+    \label{fig:petabricks-overview}
+\end{figure}
+
+O compilador do PetaBricks contém três componentes principais: um 
+compilador fonte-para-fonte da linguagem PetaBricks para C++; um 
+\emph{autotuner}; e uma biblioteca de execução utilizada pelo código gerado.
+Esses componentes permitem ao sistema PetaBricks gerar um programa final 
+otimizado para a arquitetura alvo, que utiliza os algoritmos especificados pelo
+programador numa combinação que minimiza o tempo de execução nesta arquitetura.
+A Figura~\ref{fig:petabricks-overview} ilustra as relações entre esses 
+componentes e os dados que utilizam no processo de compilação.
+
+A primeira tarefa do compilador é fazer a análise sintática do código fonte, 
+determinando as regiões --- intervalos no tamanho da entrada, por exemplo ---
+onde cada \emph{rule} pode ser aplicada. Essas regiões são calculadas à partir
+de inferências sobre o código fonte, e podem ser definidas pelo programador
+através da primitiva \emph{where}. Com essa informação o compilador pode 
+construir um grafo de dependências para as escolhas algorítmicas,
+que é codificado no programa em C++ gerado, e será utilizado pelo ambiente de
+execução e \emph{autotuner} do PetaBricks, explorando as escolhas disponíveis
+e otimizando o programa.
+
+No próximo passo, diferentes versões do programa serão geradas e executadas, 
+contendo combinações de parâmetros de compilação e algoritmos diferentes, 
+produzindo arquivos de configuração que podem servir de parâmetro para a 
+continuação do processo de busca ou para gerar um arquivo executável final, 
+já otimizado.
+
+\subsubsection{Autotuner}\label{sec:autotuner}
+
+O \emph{autotuner} do PetaBricks realiza a busca pela melhor solução de 
+determinado problema, representada por uma combinação dos algoritmos 
+especificados pelo programador. O \emph{INCREA}~\citet{ansel2011efficient} é o 
+algoritmo genético responsável por gerar e avaliar as possíveis soluções 
+no \emph{autotuner}, e faz isso de maneira incremental, começando
+o processo de seleção sobre codificações mais simples de solução e utilizando 
+os resultados obtidos para orientar a busca sobre codificações mais complexas.
+
+A estratégia do \emph{INCREA} funciona bem quando o tamanho da codificação
+implica num alto custo de avaliação da solução mas, ao mesmo tempo, soluções
+melhores têm um custo menor. Isso acontece pois o algoritmo começa utilizando
+problemas de tamanho pequeno e aumenta o tamanho da codificação utilizada na 
+seleção conforme encontra boas soluções, garantindo que as maiores codificações
+encontradas serão próximas a candidatos com boa avaliação e portanto terão um
+baixo custo de avaliação. Outra vantagem do algoritmo é ter bons resultados
+quando o processo de avaliação apresenta ruído ou alta variação nas medidas.
+Em contrapartida, o algoritmo não tem bons resultados quando o espaço de busca
+contém muitos pontos de máximo locais --- podendo impedir a 
+exploração de outras áreas do espaço de busca --- ou as soluções de 
+codificações menores não são reutilizáveis para soluções maiores.
+
+O genoma que codifica as soluções tem tamanho $(2m + 1)k + n$,
+onde $k$ representa o número de seletores, $m$ os
+limites dos intervalos para cada algoritmo e $n$ o número de \emph{tunables} 
+utilizados na seleção. O número de pares de algoritmos e limites de intervalo
+ativos no genoma começa em $1$ e é incrementado a cada geração.
+
+A avaliação de codificações consiste em executar o programa gerado pela
+configuração representada no genoma, o valor do \emph{fitness} é o inverso
+do tempo de execução. O tamanho da entrada testada na execução do programa
+começa em $1$ e dobra a cada geração.
+
+\subsubsection{Exemplos}
+
+\subsection{Adaptive Multi-Selection Framework} \label{sec:amf}
+
+\subsubsection{Algorithm Portfolio}
+
+\subsubsection{Multi-Seleção}
+
+\subsubsection{Arquitetura}
+
+\subsubsection{Multi-Seleção}
+
+\section{Objetivos} \label{sec:obj}
+
+\section{Metodologia} \label{sec:met}
+
+\section{Cronograma} \label{sec:chrono}
+
+\section{Trabalhos Relacionados} \label{sec:trabrel}
+
+\newpage
+\bibliographystyle{plainnat}
+\bibliography{projeto}
+
+\end{document}
