@@ -20,7 +20,7 @@
 \usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry}
 \usepackage[square, sort, comma, numbers]{natbib}
 
-\singlespacing
+\onehalfspacing
 \graphicspath{{./img/}}
 \makeindex
 
@@ -34,9 +34,8 @@
   punktchain/.style={
     rectangle, 
     rounded corners, 
-    % fill=black!10,
     draw=black, very thick,
-    text width=8em, 
+    text width=8.3em, 
     minimum height=3em, 
     text centered, 
     on chain},
@@ -45,7 +44,7 @@
     rounded corners, 
     fill=blue!30,
     draw=black, very thick,
-    text width=8em, 
+    text width=8.3em, 
     minimum height=3em, 
     text centered, 
     on chain},
@@ -56,7 +55,7 @@
     bottom color=blue!50!black!60!,
     minimum width=8em,
     draw=blue!40!black!90, very thick,
-    text width=8em, 
+    text width=8.3em, 
     minimum height=3.5em, 
     text centered, 
     on chain},
@@ -72,7 +71,7 @@
     frame=L,
 }
 
-\setcounter{secnumdepth}{3}
+\setcounter{secnumdepth}{2}
 \setcounter{tocdepth}{2}
 
 \begin{document}
@@ -267,13 +266,15 @@ que serão utilizados no \emph{autotuner}.
 O sistema PetaBricks (\citet{ansel2009petabricks, ansel2014phd, 
 ansel:xrds:2010, mitcsail-tr:2014})
 consiste em uma linguagem, um compilador, e um ambiente de execução,
-e seu objetivo é encontrar combinações algorítmicas que tenham o melhor 
+e seu objetivo é encontrar uma sequência de aplicação de algoritmos 
+para a solução de um mesmo problema que especifique um programa com o melhor 
 desempenho na arquitetura alvo, através de uma busca empírica num espaço
 de soluções definido pelo programador.
 
-A linguagem PetaBricks (\emph{.pbcc}) facilita o processo de 
-otimização por busca, expondo ao compilador as escolhas algorítmicas para 
-solução de um problema e suas ordens de execução válidas. O programa é 
+A linguagem PetaBricks (\emph{.pbcc}) facilita a 
+elaboração do espaço de busca pelo programador, que pode expor ao compilador 
+--- através de construções de alto nível --- as escolhas algorítmicas 
+para solução de um problema e suas ordens de execução válidas. O programa é 
 compilado para a linguagem C++ e então passa pelo \emph{autotuner} 
 (\citet{ansel2011efficient}), que utiliza um algoritmo genético para gerar e 
 testar diferentes combinações, produzindo uma configuração otimizada para 
@@ -281,8 +282,12 @@ execução na arquitetura alvo.
 
 \subsubsection{Linguagem}
 
-Tomando como exemplo o problema da ordenação de vetores, um programa na
-linguagem do sistema PetaBricks pode utilizar a primitiva \emph{either...or} 
+A linguagem do sistema PetaBricks não possui mecanismos para controle do fluxo
+de execução do programa. É possível especificar apenas modos de solução e 
+condições de parada, e o fluxo de execução entre esses modos será determinado 
+pelo processo de otimização.
+Tomando como exemplo o problema da ordenação de vetores, um programa no
+PetaBricks pode utilizar a primitiva \emph{either...or} 
 (Figura~\ref{fig:sort2pbcc}) ou os conceitos de \emph{transform} e \emph{rule}
 (Figura~\ref{fig:sortpbcc}) para determinar o espaço de algoritmos que podem 
 ser combinados para gerar uma solução eficiente.
@@ -332,8 +337,9 @@ do \emph{either...or} a cada vez que a primitiva é executada.
 
 \begin{figure}[H]
     \begin{tikzpicture}
-        [node distance=.8cm,
-        start chain=going right]
+        [node distance=.76cm,
+        start chain=going right]        
+        \footnotesize
             \node[fillchain, join] (compiler) {Compilador};
             \begin{scope}[start branch=peta]
                 \node[punktchain, on chain=going above] (pbcc) {Código \emph{.pbcc}};
@@ -414,8 +420,7 @@ onde $k$ representa o número de seletores, $m$ os
 limites dos intervalos para cada algoritmo e $n$ o número de \emph{tunables} 
 utilizados na seleção. O número de pares de algoritmos e limites de intervalo
 ativos no genoma começa em $1$ e é incrementado a cada geração.
-
-A avaliação de codificações consiste em executar o programa gerado pela
+A avaliação do genoma consiste em executar o programa gerado pela
 configuração representada no genoma, o valor do \emph{fitness} é o inverso
 do tempo de execução. O tamanho da entrada testada na execução do programa
 começa em $1$ e dobra a cada geração.
@@ -424,13 +429,73 @@ começa em $1$ e dobra a cada geração.
 
 \subsection{Adaptive Multi-Selection Framework} \label{sec:amf}
 
-\subsubsection{Algorithm Portfolio}
+O \emph{Adaptive Multi-Selection Framework}, ou AMF 
+(\citet{goldman2012framework}), permite resolver instâncias de um problema 
+através de combinações de algoritmos para solução dessas instâncias. 
+Os algoritmos a ser combinados e as instâncias a ser resolvidas são
+especificados numa aplicação do AMF, que pode também fornecer dados sobre
+o desempenho dos algoritmos na arquitetura alvo do programa final.
+Através da técnica da Multi-Seleção, o AMF gera uma divisão dos recursos 
+computacionais disponíveis --- por exemplo, núcleos do processador --- entre 
+esses algoritmos, de acordo com seu desempenho na solução das instâncias 
+apresentadas. Para isso, utiliza heurísticas para a aproximação do problema do
+escalonamento da divisão de recursos, assumindo que
+um recurso não pode ser dividido entre algoritmos, e que nenhum recurso 
+deixará de ser utilizado --- o problema, abreviado como dRSSP (\emph{Discrete 
+Resource Sharing Scheduling Problem}), é descrito e estudado por 
+\citet{bougeret2009combining,bougeret2011approximating}. Finalmente,
+a divisão de recursos selecionada é executada como um algoritmo 
+\emph{portfolio} (\citet{huberman1997economics}).
 
-\subsubsection{Multi-Seleção}
+O AMF é implementado em C/C++ e seu componente central é o 
+\textbf{AMF\_Learner}, que obtém informações sobre a arquitetura
+alvo, serve de base de conhecimentos para os demais componentes,
+e gera a combinação de algoritmos para as aplicações registradas no
+arcabouço. A resolução de uma instância através da aplicação é coordenada pelo 
+componente \textbf{AMF\_Solver} que, com as otimizações para distribuição de 
+recursos calculadas pelo componente \textbf{AMF\_Optimizer}, executa o 
+algoritmo \emph{portfolio} através do componente \textbf{AMF\_Portfolio}.
+Os componentes \textbf{AMF\_AContainer} e \textbf{AMF\_BContainer} especificam
+os algoritmos disponíveis e as avaliações de desempenho sobre as instâncias
+utilizadas na otimização da distribuição de recursos, respectivamente. A Figura
+\ref{fig:amf-overview} ilustra as relações entre os componentes do AMF.
 
-\subsubsection{Arquitetura}
+\begin{figure}[H]
+    \begin{tikzpicture}
+        [node distance=.5cm,
+        start chain=going right]
+        \footnotesize
+            \node[punktchain] (port) {AMF\_Portfolio};
+            \begin{scope}[start branch=tuner]
+                \node[punktchain, on chain=going below] (alg) {AMF\_AContainer};
+            \end{scope}
+            \node[fillchain] (learner) {AMF\_Learner};
+            \begin{scope}[start branch=solv]
+                \node[punktchain, on chain=going above] (solver) {AMF\_Solver};
+            \end{scope}
+            \node[punktchain] (opt) {AMF\_Optimizer};
+            \begin{scope}[start branch=tuner]
+                \node[punktchain, on chain=going below] (bench) {AMF\_BContainer};
+            \end{scope}
+            \draw[|-,-|,-, thick,] (port.east) |-+(0,0)-| (learner.west);
+            \draw[|-,-|,-, thick,] (learner.east) |-+(0,0)-| (opt.west);
+            \draw[|-,-|,-, thick,] (learner.north) |-+(0,0)-| (solver.south);
+            \draw[|-,-|,-, thick,] (port.north) |-+(0,1)-| (solver.west);
+            \draw[|-,-|,-, thick,] (opt.north) |-+(0,1)-| (solver.east);
+            \draw[|-,-|,-, thick,] (port.south) |-+(0,0)-| (alg.north);
+            \draw[|-,-|,-, thick,] (alg.east) |-+(0,0)-| (learner.south);
+            \draw[|-,-|,-, thick,] (bench.west) |-+(0,0)-| (learner.south);
+    \end{tikzpicture}
+    \centering
+    \caption{Componentes do AMF e suas relações.}
+    \label{fig:amf-overview}
+\end{figure}
 
-\subsubsection{Multi-Seleção}
+\subsubsection{Multi-Seleção} \label{sec:multsel}
+
+\subsubsection{Discrete Resource Sharing Scheduling Problem} \label{sec:drssp}
+
+\subsubsection{Algoritmo Portfolio} \label{sec:portfolio}
 
 \section{Objetivos} \label{sec:obj}
 
