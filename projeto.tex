@@ -20,7 +20,7 @@
 \usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry}
 \usepackage[square, sort, comma, numbers]{natbib}
 
-\onehalfspacing
+\doublespacing
 \graphicspath{{./img/}}
 \makeindex
 
@@ -80,36 +80,40 @@
 
 \thispagestyle{empty}
 \begin{center}
-    \vspace*{2.3cm}
+    \vspace*{1cm}
     \textbf{\Large{Título Provisório}}\\
 
     \vskip 1cm
 
     \textsc{Projeto de Pesquisa}
 
-    \vskip 3cm
+    \vskip 1cm
 
     \begin{minipage}{.4\linewidth}
         \begin{flushleft}
             \emph{Autor}: \\Pedro \textsc{Bruel}\\
-            \emph{e-mail}: \\pedro.bruel@gmail.com
+            pedro.bruel@gmail.com
         \end{flushleft}
     \end{minipage}
     \begin{minipage}{.4\linewidth}
         \begin{flushright}
             \emph{Orientador}: \\Prof. Dr. Alfredo \textsc{Goldman}\\
-            \emph{e-mail}: \\gold@ime.usp.br
+            gold@ime.usp.br
         \end{flushright}
     \end{minipage}
 
-    \vskip 3cm
+    \vskip 1cm
+
+    \normalsize{\emph{DCC - IME\\
+    Universidade de São Paulo}\\}
+
+    \vskip 2cm
     \begin{abstract}
     \rule{\linewidth}{.1mm} \\
     \rule{\linewidth}{.1mm} \\
     \end{abstract}
 
     \vfill
-
     \normalsize{São Paulo, \today}
 \end{center}
 
@@ -492,6 +496,34 @@ utilizadas na otimização da distribuição de recursos, respectivamente. A Fig
 \end{figure}
 
 \subsubsection{Multi-Seleção} \label{sec:multsel}
+
+A técnica da Multi-Seleção no AMF utiliza três fases para resolver determinada 
+instância ou grupo de instâncias de um problema. Primeiro, o AMF seleciona
+algoritmos candidatos para a instância, que podem ser paralelos ou sequenciais.
+Depois, calcula a distribuição de recursos para os algoritmos selecionados, 
+baseando-se nos resultados de desempenho dos algoritmos na instância. 
+Finalmente, os algoritmos selecionados são executados concorrentemente, 
+seguindo a distribuição calculada na segunda fase, e quando qualquer um
+deles resolver a instância, os outros são interrrompidos e a execução da
+aplicação do AMF termina.
+
+Considere o conjunto $I$ de instâncias de um problema, e as instâncias $i_k \in
+I, \quad 0 \leq k < n$, onde $n$ é o número de instâncias especificadas. 
+Considere também o conjunto $A$, de algoritmos candidatos para solução da
+instância $i_k$. O AMF seleciona um conjunto $A_{i_k} \subseteq A$ para
+execução em \emph{portfolio}, que levará um tempo total $T(i_k) = 
+T_s(i_k) + T_{rs}(i_k) + T_{ep}(i_k)$ para resolver a instância $i_k$,
+onde $T_s$, $T_{rs}$ e $T_{ep}$ calculam o tempo para fazer a seleção
+dos algoritmos, distribuir os recursos e executar o \emph{portfolio},
+respectivamente.
+
+O AMF pode operar em dois modos de seleção. O modo \emph{offline}
+seleciona o conjunto $A_{i} = A, \forall i \in I$, fazendo com que
+$T_s(i) + T_{rs}(i)$ seja constante, e com que $T(i)$ dependa mais
+do tempo de execução do \emph{portfolio}. No modo \emph{online},
+a seleção do conjunto $A_{i_k} \subseteq A$ tem como objetivo minimizar
+$T_{ep}(i_k)$ através da seleção de algoritmos mais eficientes, mesmo
+que isso aumente $T_s(i) + T_{rs}(i)$.
 
 \subsubsection{Discrete Resource Sharing Scheduling Problem} \label{sec:drssp}
 
