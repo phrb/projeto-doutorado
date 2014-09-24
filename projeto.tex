@@ -443,7 +443,7 @@ Através da técnica da Multi-Seleção, o AMF gera uma divisão dos recursos
 computacionais disponíveis --- por exemplo, núcleos do processador --- entre 
 esses algoritmos, de acordo com seu desempenho na solução das instâncias 
 apresentadas. Para isso, utiliza heurísticas para a aproximação do problema do
-escalonamento da divisão de recursos, assumindo que
+escalonamento da distribuição de recursos, assumindo que
 um recurso não pode ser dividido entre algoritmos, e que nenhum recurso 
 deixará de ser utilizado --- o problema, abreviado como dRSSP (\emph{Discrete 
 Resource Sharing Scheduling Problem}), é descrito e estudado por 
@@ -525,7 +525,45 @@ a seleção do conjunto $A_{i_k} \subseteq A$ tem como objetivo minimizar
 $T_{ep}(i_k)$ através da seleção de algoritmos mais eficientes, mesmo
 que isso aumente $T_s(i) + T_{rs}(i)$.
 
-\subsubsection{Discrete Resource Sharing Scheduling Problem} \label{sec:drssp}
+\subsubsection{Distribuição de Recursos} \label{sec:drssp}
+
+Considere o conjunto $A = \{\alpha_1, \dots, \alpha_k\}$ de $k$ algoritmos que
+resolvem instâncias de um determinado problema, o conjunto $I = \{i_1, \dots, 
+i_n\}$ de $n$ instâncias do problema, e o conjunto $R = \{0, \dots, m\}$ com
+$m$ recursos computacionais idênticos, onde pode-se executar algoritmos de $A$
+em instâncias $i \in I$. Define-se $C(\alpha_i,i_j,r)$, o custo
+de um algoritmo $\alpha_i \in A$ na instância $i_j \in I$, com $r \in R$ 
+recursos. O custo, neste caso, nada mais é que o tempo de execução do 
+algoritmo na resolução da instância.
+
+Calcula-se então, através das heurísticas para o dRSSP implementadas no AMF,
+um \emph{portfolio} (\citet{huberman1997economics}),
+que consiste num vetor $\overrightarrow{S} = [s_1, \dots, s_k] \quad | \quad 
+s_i \in R, \quad \sum_{} s_i \leq m$, onde $s_i \in \overrightarrow{S}$ 
+determina o número de recursos computacionais alocados para execução
+do algoritmo $\alpha_i \in A$. Como a execução do algoritmo 
+\emph{portfolio} termina quando qualquer um dos algoritmos encontra
+uma solução para a instância, o custo para qualquer instância
+$i_j \in I$, com alguma distribuição de recursos $\overrightarrow{S_{i_j}}$,
+pode ser escrito como $C(\overrightarrow{S_{i_j}}, i_j) = 
+min \{C(\alpha_i,i_j,s_i)\}|_{\alpha_i \in A, s_i > 0}$. O objetivo
+então é calcular a distribuição de recursos $\overrightarrow{S^*}$ 
+que, para a solução de múltiplas instâncias, satisfaça:
+
+\begin{equation*}
+\sum_{i_j \in I} C(\overrightarrow{S^*},i_j) \quad \leq \quad \sum_{i_j \in I} 
+C(\overrightarrow{S_k}, i_j), \quad \forall \overrightarrow{S_k}
+\end{equation*}
+
+Alternativamente, quando o objetivo for resolver uma instância específica e 
+não instâncias em blocos, pode-se calcular um $\overrightarrow{S^*}$ que
+satisfaça:
+
+\begin{equation*}
+    max \{C(\overrightarrow{S^*},i_j)\} |_{i_j \in I} \quad \leq \quad
+    max \{C(\overrightarrow{S_k}, i_j)\} |_{i_j \in I}, \quad \forall 
+    \overrightarrow{S_k}
+\end{equation*}
 
 \subsubsection{Algoritmo Portfolio} \label{sec:portfolio}
 
