@@ -505,7 +505,8 @@ baseando-se nos resultados de desempenho dos algoritmos na instância.
 Finalmente, os algoritmos selecionados são executados concorrentemente, 
 seguindo a distribuição calculada na segunda fase, e quando qualquer um
 deles resolver a instância, os outros são interrrompidos e a execução da
-aplicação do AMF termina.
+aplicação do AMF termina. A Multi-Seleção no AMF pode ser descrita da
+seguinte forma (\citet{goldman2012framework}):
 
 Considere o conjunto $I$ de instâncias de um problema, e as instâncias $i_k \in
 I, \quad 0 \leq k < n$, onde $n$ é o número de instâncias especificadas. 
@@ -527,13 +528,19 @@ que isso aumente $T_s(i) + T_{rs}(i)$.
 
 \subsubsection{Distribuição de Recursos} \label{sec:drssp}
 
+Depois de selecionados os algoritmos para solução de uma dada instância $i$,
+é feito o cálculo da distribuição dos recursos computacionais disponíveis entre
+os algoritmos. A distribuição é calculada por aproximações de soluções para
+o dRSSP, um problema NP-difícil. \citet{bougeret2011approximating} prova a 
+complexidade do dRSSP, e descreve o problema da seguinte forma:
+
 Considere o conjunto $A = \{\alpha_1, \dots, \alpha_k\}$ de $k$ algoritmos que
 resolvem instâncias de um determinado problema, o conjunto $I = \{i_1, \dots, 
 i_n\}$ de $n$ instâncias do problema, e o conjunto $R = \{0, \dots, m\}$ com
 $m$ recursos computacionais idênticos, onde pode-se executar algoritmos de $A$
 em instâncias $i \in I$. Define-se $C(\alpha_i,i_j,r)$, o custo
 de um algoritmo $\alpha_i \in A$ na instância $i_j \in I$, com $r \in R$ 
-recursos. O custo, neste caso, nada mais é que o tempo de execução do 
+recursos. O custo, neste caso, é o tempo de execução do 
 algoritmo na resolução da instância.
 
 Calcula-se então, através das heurísticas para o dRSSP implementadas no AMF,
@@ -566,6 +573,11 @@ satisfaça:
 \end{equation*}
 
 \subsubsection{Algoritmo Portfolio} \label{sec:portfolio}
+
+Após a seleção dos algoritmos para solução da instância e do
+cálculo de uma distribuição de recursos entre eles, os algoritmos
+são executados em paralelo na arquitetura alvo, seguindo a distribuição
+de recursos calculada. 
 
 \section{Objetivos} \label{sec:obj}
 
