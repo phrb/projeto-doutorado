@@ -20,7 +20,7 @@
 \usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry}
 \usepackage[square, sort, comma, numbers]{natbib}
 
-\doublespacing
+\onehalfspacing
 \graphicspath{{./img/}}
 \makeindex
 
@@ -139,7 +139,7 @@ a melhor otimização através de técnicas de aprendizado de máquina e medidas
 desempenho.
 
 No processo de busca empírica, alguns compiladores realizam uma calibragem dos 
-parâmetros de compilação (\citet{whaley1998,yotov2003}) para a arquitetura 
+parâmetros de compilação (\citet{bilmes1997,whaley1998}) para a arquitetura 
 alvo, e utilizam essa calibragem para gerar código otimizado para essa 
 arquitetura. 
 
@@ -147,10 +147,11 @@ Outros trabalhos (\citet{goldman2012framework,mitcsail-tr:2014,
 vuduc2004}) propõe uma abordagem diferente, onde são geradas e executadas 
 variadas combinações de algoritmos que resolvem um mesmo problema, comparando 
 seus desempenhos para selecionar a melhor combinação para uma dada arquitetura.
-~\citet{yotov2003} compara a otimização por busca empírica e por 
-modelagem, apresentando um modelo com desempenho comparável à busca empírica.
-~\citet{vuduc2004} apresenta e compara alguns
-modelos estatísticos que auxiliam no processo de busca empírica.
+Os enormes espaços de busca resultantes das diferentes formas de se implementar
+um algoritmo --- ou combinações deles --- em determinada arquitetura, e a 
+dificuldade de se modelar o impacto de pequenas variações na implementação 
+desses algoritmos, também motivam o desenvolvimento de técnicas empíricas para
+busca nesses espaços.
 
 Nesta seção são discutidos o problema da otimização automática
 (Seção \ref{sec:autotuning}) e os sistemas PetaBricks~\cite{ansel2014phd}
@@ -429,8 +430,6 @@ configuração representada no genoma, o valor do \emph{fitness} é o inverso
 do tempo de execução. O tamanho da entrada testada na execução do programa
 começa em $1$ e dobra a cada geração.
 
-\subsubsection{Exemplos}
-
 \subsection{Adaptive Multi-Selection Framework} \label{sec:amf}
 
 O \emph{Adaptive Multi-Selection Framework}, ou AMF 
@@ -577,15 +576,65 @@ satisfaça:
 Após a seleção dos algoritmos para solução da instância e do
 cálculo de uma distribuição de recursos entre eles, os algoritmos
 são executados em paralelo na arquitetura alvo, seguindo a distribuição
-de recursos calculada. 
+de recursos calculada. Quando o primeiro algoritmo no \emph{portfolio}
+encontra uma solução para a instância, os demais algoritmos em execução 
+são interrompidos pelo AMF e a instância está resolvida.
+
+\section{Trabalhos Relacionados} \label{sec:trabrel}
+
+Nas últimas três décadas, muitos trabalhos apresentaram sistemas e técnicas 
+para a otimização automática empírica, permitindo a construção de programas e 
+bibliotecas de eficiência portável em diferentes domínios de problemas.
+\citet{bilmes1997} apresenta em 1997 o sistema PHiPAC para otimização
+automática, dependente da arquitetura, da multiplicação de matrizes. O PHiPAC
+utiliza \emph{scripts} de busca, que geram, compilam e testam os programas
+candidatos, para encontrar a melhor combinação de parâmetros para geração do 
+código de multiplicação de matrizes. Em retrospectiva recente, 
+\citet{bilmes2014phipacretro} explica como o código gerado pelo PHiPAC atingiu
+performace comparável à das bibliotecas para multiplicação de matrizes 
+otimizadas pelos fabricantes de computadores na época, motivando o uso de
+técnicas de otimização automática em diferentes áreas 
+(\citet{demmel2009accelerating}).
+
+%{
+% Parágrafo citando as contribuições de outros trabalhos relacionados
+% à busca empírica
+%
+% Trabalhos a abordar (autotuning):
+%
+%\begin{itemize}
+%    \item OpenTuner
+%    \item Atlas
+%    \item Active harmony
+%    \item Fftw
+%    \item Insieme
+%    \item Milepost gcc
+%    \item Oski
+%    \item Patus
+%    \item Seec heartbeats
+%    \item Sepya
+%    \item Spyral
+%\end{itemize}
+%}
+
+%{
+% Parágrafo sobre abstrações de alto nível
+%}
+
+%{
+% Parágrafo sobre trabalhos "teóricos" sobre autotuning.
+\citet{yotov2003} compara a otimização por busca empírica e por 
+modelagem, apresentando um modelo com desempenho comparável à busca empírica.
+\citet{vuduc2004} apresenta e compara alguns
+modelos estatísticos que auxiliam no processo de busca empírica.
+\citet{yu2004adaptive} trabalho adaptativo.
+%}
 
 \section{Objetivos} \label{sec:obj}
 
 \section{Metodologia} \label{sec:met}
 
 \section{Cronograma} \label{sec:chrono}
-
-\section{Trabalhos Relacionados} \label{sec:trabrel}
 
 \newpage
 \bibliographystyle{plainnat}
