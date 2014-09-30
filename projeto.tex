@@ -156,13 +156,15 @@ busca nesses espaços.
 Nesta seção são discutidos o problema da otimização automática
 (Seção \ref{sec:autotuning}) e os sistemas PetaBricks~\cite{ansel2014phd}
 (Seção \ref{sec:peta}) e AMF~\cite{goldman2012framework} (seção \ref{sec:amf}).
-O restante do projeto é organizado da seguinte forma: A Seção \ref{sec:obj} 
-apresenta os objetivos do projeto. Na Seção \ref{sec:met}, discute-se a 
-metodologia de desenvolvimento e avaliação de resultados. A Seção 
-\ref{sec:chrono} apresenta um plano de trabalho e um cronograma para seu 
-desenvolvimento. Finalmente, a Seção \ref{sec:trabrel} apresenta um 
+O restante do projeto é organizado da seguinte forma: 
+A Seção \ref{sec:trabrel} apresenta um 
 levantamento bibliográfico com os principais trabalhos relacionados à proposta
 do projeto.
+A Seção \ref{sec:obj} 
+apresenta os objetivos do projeto. Na Seção \ref{sec:met}, discute-se a 
+metodologia de desenvolvimento e avaliação de resultados. Finalmente, 
+a Seção \ref{sec:chrono} apresenta um plano de trabalho e um cronograma para 
+seu desenvolvimento. 
 
 \subsection{Autotuning} \label{sec:autotuning}
 
@@ -503,7 +505,7 @@ Depois, calcula a distribuição de recursos para os algoritmos selecionados,
 baseando-se nos resultados de desempenho dos algoritmos na instância. 
 Finalmente, os algoritmos selecionados são executados concorrentemente, 
 seguindo a distribuição calculada na segunda fase, e quando qualquer um
-deles resolver a instância, os outros são interrrompidos e a execução da
+deles resolver a instância, os outros são interrompidos e a execução da
 aplicação do AMF termina. A Multi-Seleção no AMF pode ser descrita da
 seguinte forma (\citet{goldman2012framework}):
 
@@ -585,50 +587,48 @@ são interrompidos pelo AMF e a instância está resolvida.
 Nas últimas três décadas, muitos trabalhos apresentaram sistemas e técnicas 
 para a otimização automática empírica, permitindo a construção de programas e 
 bibliotecas de eficiência portável em diferentes domínios de problemas.
-\citet{bilmes1997} apresenta em 1997 o sistema PHiPAC para otimização
+\citet{bilmes1997} apresentam em 1997 o sistema PHiPAC para otimização
 automática, dependente da arquitetura, da multiplicação de matrizes. O PHiPAC
 utiliza \emph{scripts} de busca, que geram, compilam e testam os programas
 candidatos, para encontrar a melhor combinação de parâmetros para geração do 
 código de multiplicação de matrizes. Em retrospectiva recente, 
-\citet{bilmes2014phipacretro} explica como o código gerado pelo PHiPAC atingiu
-performace comparável à das bibliotecas para multiplicação de matrizes 
+\citet{bilmes2014phipacretro} explicam como o código gerado pelo PHiPAC atingiu
+desempenho comparável à das bibliotecas para multiplicação de matrizes 
 otimizadas pelos fabricantes de computadores na época, motivando o uso de
 técnicas de otimização automática em diferentes áreas 
 (\citet{demmel2009accelerating}).
 
-%{
-% Parágrafo citando as contribuições de outros trabalhos relacionados
-% à busca empírica
-%
-% Trabalhos a abordar (autotuning):
-%
-%\begin{itemize}
-%    \item OpenTuner
-%    \item Atlas
-%    \item Active harmony
-%    \item Fftw
-%    \item Insieme
-%    \item Milepost gcc
-%    \item Oski
-%    \item Patus
-%    \item Seec heartbeats
-%    \item Sepya
-%    \item Spyral
-%\end{itemize}
-%}
+Foram desenvolvidos vários sistemas para construção e otimização de bibliotecas
+para problemas em domínios específicos. Entre eles, o sistema ATLAS 
+(\citet{whaley1998, whaley2005}) utiliza técnicas empíricas para selecionar
+algoritmos para multiplicação de matrizes. O projeto UHFFT 
+(\citet{ali2007scheduling}) otimiza o cálculo da transformada rápida
+de Fourier em arquiteturas \emph{multicore}. O sistema SPIRAL 
+(\citet{puschel2005spiral}) otimiza cálculos de processamento de sinais
+digitais.
 
-%{
-% Parágrafo sobre abstrações de alto nível
-%}
+Outros trabalhos propõe abstrações em alto nível --- linguagens e arcabouços 
+--- facilitando o processo de especificação dos espaços de busca para a 
+otimização e a implementação de programas adaptáveis. O STAPL 
+(\citet{thomas2005stapl}) é uma biblioteca de templates para C++
+que permite o uso de algoritmos adaptativos. A representação intermediária
+INSPIRE (\citet{jordan2013inspire}) unifica construções de linguagens e 
+especificações para programação paralela, como OpenCL, OpenMP e MPI.
+\citet{yu2004adaptive} apresentam um arcabouço para geração \emph{off-line}
+de mecanismos de seleção algorítmica.
 
-%{
-% Parágrafo sobre trabalhos "teóricos" sobre autotuning.
-\citet{yotov2003} compara a otimização por busca empírica e por 
+Alguns trabalhos discutem os processos e os métodos de busca no espaço
+de soluções especificadas para um problema. Entre eles,
+\citet{yotov2003} comparam a otimização por busca empírica e por 
 modelagem, apresentando um modelo com desempenho comparável à busca empírica.
-\citet{vuduc2004} apresenta e compara alguns
+\citet{vuduc2004} apresentam e comparam alguns
 modelos estatísticos que auxiliam no processo de busca empírica.
-\citet{yu2004adaptive} trabalho adaptativo.
-%}
+\citet{cooper2002compilation} discutem a importância da
+ordem em que as otimizações de compilação são aplicadas, e apresentam
+um protótipo para seleção e adaptação dessa ordem.
+Em \citet{cooper2002adaptive}, defende-se o uso de métodos de busca
+por seleção aleatória e descreve-se um arcabouço para implementação
+de compiladores adaptativos.
 
 \section{Objetivos} \label{sec:obj}
 
