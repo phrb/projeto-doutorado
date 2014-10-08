@@ -133,8 +133,8 @@ diferentes arquiteturas de memória distribuída, compartilhada (de acesso
 uniforme, não uniforme), e auxílio de coprocessadores.
 
 A otimização automática de um programa pode envolver modelagens da
-arquitetura alvo --- exigindo conhecimentos específicos sobre o problema e a
-máquina --- ou buscas empíricas no espaço de possíveis soluções --- encontrando
+arquitetura alvo, exigindo conhecimentos específicos sobre o problema e a
+máquina --- ou buscas empíricas no espaço de possíveis soluções, encontrando
 a melhor otimização através de técnicas de aprendizado de máquina e medidas de
 desempenho.
 
@@ -249,7 +249,7 @@ Com os seletores $s$ e $s_t$, podemos especificar um programa
 $P_{s,s_t}$, e o objetivo de um \emph{autotuner} ideal é encontrar
 os seletores $s^*,s_{t}^{*}$ que especifiquem o programa $P_{s^*,s_{t}^{*}}$, 
 ou $P^*$, cujo tempo de execução $t^*$ --- representado por $T(P^*,H,n)$ --- 
-é calculado executando-se o programa na arquitura $H$, com entrada de tamanho
+é calculado executando-se o programa na arquitetura $H$, com entrada de tamanho
 $n$, e deve satisfazer:
 
 \begin{equation*}
@@ -610,7 +610,7 @@ digitais.
 Outros trabalhos propõe abstrações em alto nível --- linguagens e arcabouços 
 --- facilitando o processo de especificação dos espaços de busca para a 
 otimização e a implementação de programas adaptáveis. O STAPL 
-(\citet{thomas2005stapl}) é uma biblioteca de templates para C++
+(\citet{thomas2005stapl}) é uma biblioteca de \emph{templates} para C++
 que permite o uso de algoritmos adaptativos. A representação intermediária
 INSPIRE (\citet{jordan2013inspire}) unifica construções de linguagens e 
 especificações para programação paralela, como OpenCL, OpenMP e MPI.
@@ -630,7 +630,19 @@ Em \citet{cooper2002adaptive}, defende-se o uso de métodos de busca
 por seleção aleatória e descreve-se um arcabouço para implementação
 de compiladores adaptativos.
 
-\section{Objetivos} \label{sec:obj}
+\section{Objetivo} \label{sec:obj}
+
+O objetivo deste projeto de pesquisa é implementar as estratégias para o 
+cálculo de distribuições de recursos computacionais e execução de algoritmos 
+\emph{portfolio}, utilizadas no AMF (\citet{goldman2012framework}), como método
+para o \emph{autotuning} de problemas computacionalmente difíceis --- 
+NP-completos, por exemplo --- no sistema PetaBricks (\citet{ansel2014phd}).
+Essas estratégias devem substituir o \emph{autotuner} do PetaBricks quando o 
+problema a ser resolvido for computacionalmente difícil, calculando uma
+distribuição de recursos computacionais para as possibilidades algorítmicas 
+especificadas num programa na linguagem PetaBricks. As estratégias devem também
+implementar um ambiente de execução que dê suporte à execução de um 
+\emph{portfolio} com a distribuição calculada.
 
 \section{Metodologia} \label{sec:met}
 
