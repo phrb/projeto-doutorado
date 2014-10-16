@@ -123,6 +123,19 @@
 
 \section{Introdução}
 
+Recentes avanços na construção de arquiteturas de computador, como
+por exemplo processadores com múltiplos núcleos e novas arquiteturas
+e métodos de acesso a memória, criam novas possibilidades para o 
+desenvolvimento de aplicações paralelas. Somando-se a esses avanços, o contínuo
+barateamento e o aumento da disponibilidade de ciclos de processamento incitam 
+a exploração de métodos empíricos e automáticos para a otimização de programas,
+em busca da portabilidade não só de execução, mas também de desempenho. Este 
+projeto de pesquisa relaciona alguns desenvolvimentos na área da otimização
+automática de programas, e tem como objetivo combinar as estratégias utilizadas
+nos sistemas PetaBricks (\citet{ansel2014phd}) e AMF 
+(\citet{goldman2012framework}), para solução --- com eficiência portável entre
+arquiteturas --- de problemas computacionalmente difíceis.
+
 Encontram-se na literatura diversos de métodos e ferramentas para otimização 
 automática de código que visam minimizar o esforço associado ao desenvolvimento
 e manutenção de código portável, funcional e eficiente. Motivados pela grande
@@ -154,17 +167,14 @@ desses algoritmos, também motivam o desenvolvimento de técnicas empíricas par
 busca nesses espaços.
 
 Nesta seção são discutidos o problema da otimização automática
-(Seção \ref{sec:autotuning}) e os sistemas PetaBricks~\cite{ansel2014phd}
-(Seção \ref{sec:peta}) e AMF~\cite{goldman2012framework} (seção \ref{sec:amf}).
-O restante do projeto é organizado da seguinte forma: 
-A Seção \ref{sec:trabrel} apresenta um 
-levantamento bibliográfico com os principais trabalhos relacionados à proposta
-do projeto.
-A Seção \ref{sec:obj} 
-apresenta os objetivos do projeto. Na Seção \ref{sec:met}, discute-se a 
-metodologia de desenvolvimento e avaliação de resultados. Finalmente, 
-a Seção \ref{sec:chrono} apresenta um plano de trabalho e um cronograma para 
-seu desenvolvimento. 
+(Seção \ref{sec:autotuning}) e os sistemas PetaBricks (Seção \ref{sec:peta}) e
+AMF (Seção \ref{sec:amf}). O restante do projeto é organizado da seguinte 
+forma: A Seção \ref{sec:trabrel} apresenta um levantamento bibliográfico com os
+principais trabalhos relacionados à proposta do projeto.
+A Seção \ref{sec:obj} apresenta os objetivos do projeto. Na Seção 
+\ref{sec:met}, discute-se a metodologia de desenvolvimento e avaliação de 
+resultados. Finalmente, a Seção \ref{sec:chrono} apresenta um plano de trabalho
+e um cronograma para seu desenvolvimento. 
 
 \subsection{Autotuning} \label{sec:autotuning}
 
@@ -256,17 +266,26 @@ $n$, e deve satisfazer:
     t^* = T(P^*,H,n) \leq T(P_{s^*,s_{t}^{*}},H,n), \quad \forall s \in S, \quad \forall s_t \in S_t
 \end{equation*}
 
-Alguns detalhes do algoritmo para o \emph{autotuning} utilizado pelo PetaBricks
-são discutidos na Seção~\ref{sec:autotuner}.
+Em problemas computacionalmente fáceis, o tempo de execução dos programas
+especificados pelos seletores será polinomialmente proporcional ao tamanho da 
+entrada, facilitando o uso de testes empíricos para determinar as melhores
+combinações algorítmicas. Problemas computacionalmente difíceis, por outro 
+lado, precisam ser abordados de forma diferente --- através de, por exemplo,
+aproximações e heurísticas --- cujo tempo de execução pode depender de 
+diferentes características da entrada. Isso sugere que o melhor método de busca
+no espaço de soluções para problemas computacionalmente difíceis será diferente
+daquele para o caso de problemas computacionalmente fáceis.
 
-Em geral, o tempo de execução dos programas especificados pelos seletores
-é proporcional ao tamanho da entrada, mas diminui conforme
-se encontram melhores soluções. Apesar disso, o tempo de execução sofre
-interferência de muitos fatores, como por exemplo outros processos executados
-pelo sistema operacional, que competem por recursos computacionais.
-Essas propriedades de avaliação do desempenho da soluções para um problema 
-contribuem para o desenvolvimento e a escolha dos métodos
+O tempo de execução dos programas especificados pelos seletores também sofre
+interferência de muitos outros fatores, como por exemplo outros processos 
+executados pelo sistema operacional, que competem por recursos computacionais.
+As propriedades da avaliação do desempenho de soluções para diferentes classes 
+de problema contribuirão para o desenvolvimento e a escolha dos métodos
 que serão utilizados no \emph{autotuner}.
+
+Alguns detalhes do algoritmo para o \emph{autotuning} utilizado pelo PetaBricks
+são discutidos na Seção \ref{sec:autotuner}, e a estratégia utilizada pelo AMF
+é discutida na Seção \ref{sec:multsel}.
 
 \subsection{PetaBricks} \label{sec:peta}
 
