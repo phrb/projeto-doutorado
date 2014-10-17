@@ -80,14 +80,15 @@
 
 \thispagestyle{empty}
 \begin{center}
-    \vspace*{1cm}
-    \textbf{\Large{Título Provisório}}\\
+    \vspace*{5cm}
+    \textbf{\Large{Técnicas de Otimização Automática para a\\
+            Portabilidade do Desempenho de Soluções para Problemas NP}}\\
 
     \vskip 1cm
 
     \textsc{Projeto de Pesquisa}
 
-    \vskip 1cm
+    \vskip 2cm
 
     \begin{minipage}{.4\linewidth}
         \begin{flushleft}
@@ -107,11 +108,11 @@
     \normalsize{\emph{DCC - IME\\
     Universidade de São Paulo}\\}
 
-    \vskip 2cm
-    \begin{abstract}
-    \rule{\linewidth}{.1mm} \\
-    \rule{\linewidth}{.1mm} \\
-    \end{abstract}
+    %\vskip 2cm
+    %\begin{abstract}
+    %\rule{\linewidth}{.1mm} \\
+    %\rule{\linewidth}{.1mm} \\
+    %\end{abstract}
 
     \vfill
     \normalsize{São Paulo, \today}
@@ -120,6 +121,26 @@
 \newpage
 \tableofcontents
 \newpage
+
+\begin{abstract}
+\rule{\linewidth}{.1mm}
+    
+A grande variedade de arquiteturas de computador torna o desenvolvimento e a 
+otimização de programas com eficiência portável um esforço que deve ser 
+repetido para cada nova arquitetura. Trabalhos na área da otimização automática
+de programas utilizam métodos empíricos, auxiliados pela crescente
+disponibilidade de ciclos computacionais, para realizar uma busca por escolhas
+de implementação e compilação que otimizem o desempenho da solução de um 
+problema em diferentes arquiteturas de computador. O objetivo deste projeto de
+pesquisa é utilizar as técnicas de Multi-Seleção e execução em algoritmo 
+\emph{portfolio} --- como implementadas no sistema AMF --- para resolver 
+problemas computacionalmente difíceis, no contexto do sistema PetaBricks,
+que utiliza abstrações no nível de linguagem para especificar espaços de
+soluções de um mesmo problema, e otimiza a solução para uma dada arquitetura
+através de um processo de escolha algorítmica.
+
+\rule{\linewidth}{.1mm}
+\end{abstract}
 
 \section{Introdução}
 
