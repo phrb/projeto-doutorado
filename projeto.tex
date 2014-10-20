@@ -3,6 +3,7 @@
 \usepackage[brazilian]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{array}
 \usepackage{fixltx2e}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -10,7 +11,7 @@
 \usepackage{float}
 \usepackage{a4wide}
 \usepackage{multicol}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{makeidx}
 \usepackage{hyperref}
 \usepackage{setspace}
@@ -194,7 +195,7 @@ forma: A Seção \ref{sec:trabrel} apresenta um levantamento bibliográfico com 
 principais trabalhos relacionados à proposta do projeto.
 A Seção \ref{sec:obj} apresenta os objetivos do projeto. Na Seção 
 \ref{sec:met}, discute-se a metodologia de desenvolvimento e avaliação de 
-resultados. Finalmente, a Seção \ref{sec:chrono} apresenta um plano de trabalho
+resultados. Finalmente, a Seção \ref{sec:sched} apresenta um plano de trabalho
 e um cronograma para seu desenvolvimento. 
 
 \subsection{Autotuning} \label{sec:autotuning}
@@ -686,7 +687,43 @@ implementar um ambiente de execução que dê suporte à execução de um
 
 \section{Metodologia} \label{sec:met}
 
-\section{Cronograma} \label{sec:chrono}
+\section{Cronograma} \label{sec:sched}
+
+A figura \ref{fig:sched} apresenta o cronograma das atividades que serão
+desenvolvidas durante o projeto.
+
+\begin{figure}[H]
+    \centering
+\begin{center}
+    \begin{tabular}{ | >{\centering\arraybackslash}p{3cm} | 
+    >{\centering\arraybackslash}p{3cm} | 
+    >{\centering\arraybackslash}p{3cm} | 
+    >{\centering\arraybackslash}p{3cm} |}
+    \multicolumn{4}{c}{Semestres} \\
+    \hline
+    1º & 2º & 3º & 4º \\ \hline 
+    \cellcolor{gray!94} Revisão Bibliográfica & \multicolumn{3}{c|}{} \\ 
+    \cellcolor{gray!70} Estudo de Código do PetaBricks & \multicolumn{3}{c|}{} \\ 
+    \cellcolor{gray!56} Estudo de Código do AMF & \multicolumn{3}{c|}{} \\ 
+      & \multicolumn{2}{l}{\cellcolor{gray!56} Implementação} &   \\ 
+      & \multicolumn{3}{l|}{\cellcolor{gray!70} Testes de Funcionalidade} \\ 
+      & \multicolumn{3}{l|}{\cellcolor{gray!94} Aplicação dos Benchmarks, Testes de Desempenho} \\ 
+    \hline
+    \end{tabular}
+\end{center}
+    \caption{Cronograma para as atividades do projeto.}
+    \label{fig:sched}
+\end{figure}
+
+No primeiro semestre, serão feitos um estudo da bibliografia da área de 
+otimização automática, e estudos dos detalhes de implementação dos sistemas
+PetaBricks e AMF.
+
+Nos semestres subsequentes será iniciado o ciclo de desenvolvimento da
+proposta, integrando as estratégias para cálculo de distribuição de recursos
+ao autotuner do PetaBricks. O ciclo compreenderá a implementação, testes
+de funcionalidade e desempenho, utilizando os \textit{benchmarks} especificados
+na Seção \ref{sec:met}.
 
 \newpage
 \bibliographystyle{plainnat}
