@@ -82,8 +82,8 @@
 \thispagestyle{empty}
 \begin{center}
     \vspace*{5cm}
-    \textbf{\Large{Técnicas de Otimização Automática para a\\
-            Portabilidade do Desempenho de Soluções para Problemas NP}}\\
+    \textbf{\Large{Otimização Automática para Desempenho Portável \\
+            de Soluções de Problemas NP}}\\
 
     \vskip 1cm
 
@@ -124,7 +124,6 @@
 \newpage
 
 \begin{abstract}
-\rule{\linewidth}{.1mm}
     
 A grande variedade de arquiteturas de computador torna o desenvolvimento e a 
 otimização de programas com eficiência portável um esforço que deve ser 
@@ -135,12 +134,11 @@ de implementação e compilação que otimizem o desempenho da solução de um
 problema em diferentes arquiteturas de computador. O objetivo deste projeto de
 pesquisa é utilizar as técnicas de Multi-Seleção e execução em algoritmo 
 \emph{portfolio} --- como implementadas no sistema AMF --- para resolver 
-problemas computacionalmente difíceis, no contexto do sistema PetaBricks,
-que utiliza abstrações no nível de linguagem para especificar espaços de
-soluções de um mesmo problema, e otimiza a solução para uma dada arquitetura
-através de um processo de escolha algorítmica.
+problemas computacionalmente difíceis, no contexto do \emph{autotuner} do 
+sistema PetaBricks, que utiliza abstrações no nível de linguagem para 
+especificar espaços de soluções de um mesmo problema, e otimiza a solução para 
+uma dada arquitetura através de um processo de escolha algorítmica.
 
-\rule{\linewidth}{.1mm}
 \end{abstract}
 
 \section{Introdução}
@@ -369,16 +367,16 @@ do \emph{either...or} a cada vez que a primitiva é executada.
 
 \begin{figure}[H]
     \centering
-    \lstinputlisting{./code/Sort.pbcc}
-    \caption{Sort.pbcc}
-    \label{fig:sortpbcc}
+    \lstinputlisting{./code/Sort2.pbcc}
+    \caption{either\_or\_sort.pbcc}
+    \label{fig:sort2pbcc}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \lstinputlisting{./code/Sort2.pbcc}
-    \caption{Sort2.pbcc}
-    \label{fig:sort2pbcc}
+    \lstinputlisting{./code/Sort.pbcc}
+    \caption{transform\_sort.pbcc}
+    \label{fig:sortpbcc}
 \end{figure}
 
 \subsubsection{Compilador}
@@ -687,10 +685,43 @@ implementar um ambiente de execução que dê suporte à execução de um
 
 \section{Metodologia} \label{sec:met}
 
+Primeiro, será feito um levantamento bibliográfico e um estudo da literatura 
+relacionada à área de otimização automática utilizando, entre outros, o método 
+para leitura de trabalhos apresentado por \citet{keshav2007howtoread}. 
+Concomitantemente, serão  estudadas a fundo a implementação e a arquitetura dos
+sistemas PetaBricks e AMF, para facilitar a especificação das funcionalidades,
+classes e estruturas que deverão ser implementadas durante processo de 
+desenvolvimento.
+
+Depois, iniciaremos o ciclo de desenvolvimento das estruturas especificadas
+para a implementação dos objetivos, que compreende a implementação, 
+testes de funcionalidades, testes de desempenho, e correções de erros.
+Os testes de desempenho consistirão na obtenção de dados empíricos para o tempo
+de otimização das soluções de problemas computacionalmente difíceis, e para o 
+tempo de execução dessas soluções já otimizadas. Um conjunto de instâncias de 
+problemas computacionalmente difíceis será escolhido para compor
+um \emph{benchmark} de testes de desempenho, e devem incluir, entre outros, 
+instâncias do problema do \emph{bin packing} e do problema de satisfazibilidade
+booliana, problemas já utilizados na avaliação de desempenho dos sistema 
+PetaBricks e AMF, respectivamente.
+
 \section{Cronograma} \label{sec:sched}
 
 A figura \ref{fig:sched} apresenta o cronograma das atividades que serão
-desenvolvidas durante o projeto.
+desenvolvidas durante o projeto. No primeiro semestre será feito um estudo 
+da literatura da área de otimização automática, garantindo que os objetivos 
+do projeto se mantenham atuais e relevantes para a área. Ainda no primeiro 
+semestre, serão estudados os detalhes da arquitetura e da implementação dos 
+sistemas PetaBricks e AMF, facilitando a implementação da integração das 
+estratégias para cálculo de distribuição de recursos computacionais entre 
+heurísticas --- como implementadas no AMF --- ao \emph{autotuner} 
+do PetaBricks.
+
+Nos semestres subsequentes será iniciado o ciclo de desenvolvimento, que 
+compreenderá a execução concomitante das atividades de implementação, testes de
+funcionalidade e de desempenho --- utilizando o \textit{benchmark} 
+mencionado na Seção \ref{sec:met} --- e correções de erros de
+implementação, orientadas pelos resultados obtidos nos testes.
 
 \begin{figure}[H]
     \centering
@@ -702,28 +733,16 @@ desenvolvidas durante o projeto.
     \multicolumn{4}{c}{Semestres} \\
     \hline
     1º & 2º & 3º & 4º \\ \hline 
-    \cellcolor{gray!94} Revisão Bibliográfica & \multicolumn{3}{c|}{} \\ 
-    \cellcolor{gray!70} Estudo de Código do PetaBricks & \multicolumn{3}{c|}{} \\ 
-    \cellcolor{gray!56} Estudo de Código do AMF & \multicolumn{3}{c|}{} \\ 
-      & \multicolumn{2}{l}{\cellcolor{gray!56} Implementação} &   \\ 
-      & \multicolumn{3}{l|}{\cellcolor{gray!70} Testes de Funcionalidade} \\ 
-      & \multicolumn{3}{l|}{\cellcolor{gray!94} Aplicação dos Benchmarks, Testes de Desempenho} \\ 
+    \cellcolor{gray!94} Revisão Bibliográfica & \multicolumn{2}{l}{\cellcolor{gray!56} Implementação} & \\ 
+    \cellcolor{gray!70} Estudo de Código do PetaBricks & \multicolumn{3}{l|}{\cellcolor{gray!70} Testes de Funcionalidade} \\ 
+    \cellcolor{gray!56} Estudo de Código do AMF & \multicolumn{3}{l|}{\cellcolor{gray!94} Aplicação dos Benchmarks, Testes de Desempenho} \\ 
+      & \multicolumn{3}{l|}{\cellcolor{gray!108} Correções de Erros de Implementação} \\ 
     \hline
     \end{tabular}
 \end{center}
     \caption{Cronograma para as atividades do projeto.}
     \label{fig:sched}
 \end{figure}
-
-No primeiro semestre, serão feitos um estudo da bibliografia da área de 
-otimização automática, e estudos dos detalhes de implementação dos sistemas
-PetaBricks e AMF.
-
-Nos semestres subsequentes será iniciado o ciclo de desenvolvimento da
-proposta, integrando as estratégias para cálculo de distribuição de recursos
-ao autotuner do PetaBricks. O ciclo compreenderá a implementação, testes
-de funcionalidade e desempenho, utilizando os \textit{benchmarks} especificados
-na Seção \ref{sec:met}.
 
 \newpage
 \bibliographystyle{plainnat}
