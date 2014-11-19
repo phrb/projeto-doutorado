@@ -307,6 +307,39 @@ Alguns detalhes do algoritmo para o \emph{autotuning} utilizado pelo PetaBricks
 são discutidos na Seção \ref{sec:autotuner}, e a estratégia utilizada pelo AMF
 é discutida na Seção \ref{sec:multsel}.
 
+\subsection{OpenTuner}
+
+As técnicas de \emph{autotuning} geram programas com desempenho melhor e 
+muitas vezes portável, podendo atingir desempenho semelhante em diferentes 
+arquiteturas (\citet{demmel2009accelerating}). Por outro lado, cada 
+implementação dessas técnicas é altamente especializada para um problema 
+específico, como por exemplo multiplicação de matrizes ou cálculos de 
+processamento de sinais digitais.
+O OpenTuner (\citet{ansel2013opentuner}) é um arcabouço para a geração de 
+\emph{autotuners} para diferentes domínios de problemas, que trata o problema
+do \emph{autotuning} como um problema de busca e utiliza um conjunto de 
+técnicas de busca para realizar a otimização, executadas em paralelo.
+
+Para implementar um \emph{autotuner} através do OpenTuner, deve-se representar
+o domínio do problema a ser otimizado na forma de um espaço de busca, definido 
+por um conjunto de variáveis e seus limites permitidos. As técnicas de busca 
+utilizadas na otimização podem ser escolhidas pela aplicação, e novas técnicas
+podem ser implementadas. O OpenTuner utiliza uma técnica para a 
+distribuição dos recursos computacionais disponíveis entre as 
+diversas técnicas de busca implementadas, chamada de meta-técnica.
+Simplificadamente, quanto melhores os resultados encontrados por uma técnica de
+busca, mais recursos computacionais são disponibilizados a ela pela 
+meta-técnica. Assim como as técnicas de busca, novas meta-técnicas podem ser 
+implementadas para cada aplicação.
+
+Dentre as técnicas de busca já disponíveis no OpenTuner estão a busca 
+aleatória, a evolução diferencial e o método Nelder-Mead. Esse conjunto
+de técnicas, chamado de \emph{ensemble}, pretende ter bom desempenho em espaços
+de busca bem variados, e pode ser ajustado para cada aplicação. Por padrão, o 
+OpenTuner utiliza uma adaptação da técnica \emph{AUC Bandit}, apresentada por 
+\citet{pacula2012bandit}, como meta-técnica para distribuição de recursos 
+computacionais entre as técnicas de um \emph{ensemble}.
+
 \subsection{PetaBricks} \label{sec:peta}
 
 O sistema PetaBricks (\citet{ansel2009petabricks, ansel2014phd, 
@@ -704,6 +737,8 @@ um \emph{benchmark} de testes de desempenho, e devem incluir, entre outros,
 instâncias do problema do \emph{bin packing} e do problema de satisfazibilidade
 booliana, problemas já utilizados na avaliação de desempenho dos sistema 
 PetaBricks e AMF, respectivamente.
+
+\newpage
 
 \section{Cronograma} \label{sec:sched}
 
