@@ -336,10 +336,49 @@ Dentre as técnicas de busca já disponíveis no OpenTuner estão a busca
 aleatória, a evolução diferencial e o método Nelder-Mead. Esse conjunto
 de técnicas, chamado de \emph{ensemble}, pretende ter bom desempenho em espaços
 de busca bem variados, e pode ser ajustado para cada aplicação. Por padrão, o 
-OpenTuner utiliza uma adaptação da técnica MAB AUC (\emph{Multi Armed Bandit, 
-with Area Under the Curve Credit Assignment}), como apresentada em 
-\citet{pacula2012bandit}, como metatécnica para distribuição de recursos 
+OpenTuner utiliza uma adaptação da técnica MAB AUC (\emph{Multi Armed Bandit 
+with sliding window, Area Under the Curve credit assignment}), como apresentada
+em \citet{pacula2012bandit}, como metatécnica para distribuição de recursos 
 computacionais entre as técnicas de um \emph{ensemble}.
+
+\subsubsection{MAB AUC}
+
+A técnica de cálculo de distribuição de recursos computacionais utilizada
+pelo OpenTuner tem como objetivo balancear a descoberta de novas técnicas
+de busca que dão bons resultados e a exploração de técnicas cujo desempenho
+já é conhecidamente bom (\emph{exploitation vs. exploration}). Na decisão sobre
+qual a parcela de recursos computacionais destinada a uma técnica $t$, por
+exemplo, o algoritmo MAB AUC analisa uma porção do histórico de desempenho 
+dessa técnica, representado pela área sobre uma curva, desenhada durante a
+execução dos testes. Caso a técnica encontre uma solução com desempenho melhor
+do que o desempenho atual, a porção de sua curva de desempenho relacionada a
+esse instante será desenhada de forma crescente. Caso não encontre uma solução
+melhor do que a atual, é desenhada uma linha paralela ao eixo horizontal. A
+área total da curva de desempenho de uma técnica --- dentro de uma janela de
+análise -- é então normalizada e representa a quantidade de crédito que a 
+técnica receberá na distribuição de recursos computacionais. O cálculo desse 
+crédito no OpenTuner, para uma técnica $t$ com curva de desempenho $V_t$, pode
+ser escrito:
+
+\begin{equation*}
+    AUC_t = \frac{2} {|V_t|(|V_t|+1)} \sum_{i=1}^{|V_t|} iV_{t,i}
+\end{equation*}
+
+Onde $V_{t,i} = 1$ caso a solução encontrada pela técnica $t$ no instante
+$i$ teve desempenho melhor que a melhor técnica nesse instante, e 
+$V_{t,i} = 0$ caso contrário. O resultado de $AUC_t$ é então utilizado para
+determinar qual técnica de busca será utilizada para realizar a busca atual.
+A técnica $t$ que maximizar o MAB AUC realizará o teste atual. O MAB AUC é
+representado por:
+
+\begin{equation*}
+    max (AUC_t + C\sqrt{\frac{2lg|H|}{H_t}})
+\end{equation*}
+
+Onde $C$ é o termo responsável por controlar o balanço entre a exploração de 
+uma técnica conhecida e a descoberta dos resultados de novas técnicas, $|H|$ é
+o tamanho da janela de análise e $H_t$ é o número de vezes em que a técnica $t$
+foi aplicada durante a janela.
 
 \subsection{PetaBricks} \label{sec:peta}
 
@@ -739,27 +778,35 @@ instâncias do problema do \emph{bin packing} e do problema de satisfazibilidade
 booliana, problemas já utilizados na avaliação de desempenho dos sistema 
 PetaBricks e AMF, respectivamente.
 
-\newpage
-
 \section{Cronograma} \label{sec:sched}
 
 A figura \ref{fig:sched} apresenta o cronograma das atividades que serão
 desenvolvidas durante o projeto. 
-No primeiro ano serão estudadas a fundo as implementações dos sistemas
-PetaBricks, AMF e OpenTuner, com o intuito de analisar e propor possibilidades
-de aplicação do algoritmo \emph{portfolio} e da solução do dRSSP --- como 
-utilizados no AMF --- na composição das técnicas utilizadas pelos outros dois
-sistemas na solução do problema do \emph{autotuning}. Inicialmente, serão 
-estudadas a utilização da estratégia do AMF para o cálculo de distribuições de
-recursos computacionais entre diferentes heurísticas como metatécnica para 
-seleção de métodos de busca no OpenTuner, como seletora de operadores de 
-mutação no algoritmo genético do PetaBricks --- em comparação com o MAB AUC ---
-e como técnica de \emph{autotuning} independente no PetaBricks e no OpenTuner, 
-especificamente na otimização da solução de problemas de decisão 
-computacionalmente difíceis, como por exemplo o problema de satisfabilidade 
-booliana.
+No primeiro ano serão realizados estudos da literatura relacionada ao projeto,
+visando manter os objetivos coerentes com os desenvolvimentos na área e
+estudar novos sistemas. Ainda no primeiro ano, serão estudadas a fundo as 
+implementações dos sistemas PetaBricks, AMF e OpenTuner, com o intuito de 
+analisar e propor possibilidades de aplicação do algoritmo \emph{portfolio} e 
+da solução do dRSSP --- como utilizados no AMF --- na composição das técnicas 
+utilizadas pelos outros dois sistemas na solução do problema do 
+\emph{autotuning}. Inicialmente, serão estudadas as possibilidades de 
+aplicação da estratégia do AMF para o cálculo de distribuições de recursos 
+computacionais entre diferentes heurísticas em três situações:
 
-No segundo ano, serão estudadas.
+\begin{itemize}
+    \item Como técnica de \emph{autotuning} independente, implementada 
+        no PetaBricks e OpenTuner, especificamente na solução de problemas
+        de decisão computacionalmente difíceis, como por exemplo o problema
+        de satisfabilidade booliana.
+    \item Como metatécnica para seleção de métodos de busca no OpenTuner;
+    \item Como seletora de operadores de mutação do algoritmo genético 
+        utilizado no PetaBricks, em comparação com o MAB AUC;
+\end{itemize}
+
+No segundo ano serão estudadas a adaptação e a utilização do algoritmo 
+\emph{portfolio} na solução do problema do \emph{autotuning} de problemas de
+otimização, e sua implementação e aplicação num contexto de 
+\emph{autotuning online}.
 
 \begin{figure}[H]
     \centering
