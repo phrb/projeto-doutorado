@@ -805,21 +805,27 @@ computacionais entre diferentes heurísticas em três situações:
 
 No segundo ano serão implementadas as possibilidades estudadas no primeiro ano,
 e serão estudadas a adaptação e a utilização do algoritmo 
-\emph{portfolio} na solução do problema do \emph{autotuning} no caso geral --- 
-isto é, não restrito a problemas de decisão computacionalmente difíceis. 
+\emph{portfolio} na solução do problema do \emph{autotuning online} e no caso 
+geral, isto é, não restrito a problemas de decisão computacionalmente difíceis.
 Durante a duração do programa de Doutorado Direto, e passado o tempo mínimo de 
 matrícula exigido pela FAPESP, submeteremos um projeto de pesquisa para estágio
 no exterior através do programa BEPE.
 
 No terceiro e quarto anos do programa de Doutorado Direto continuarão sendo 
-implementadas as técnicas estudadas nos anos anteriores, que deverão ser 
-testadas, através da análise de seu desempenho solução dos \emph{benchmarks}
-utilizados pelo sistema PetaBricks e do \emph{benchmark} para problemas 
-computacionalmente difíceis, que será elaborado como descrito na seção
-\ref{sec:met}. Também serão feitas implementações de abstrações de alto nível,
-que deverão encapsular as implementações dos conceitos estudados anteriormente,
-e que podem tomar a forma de um arcabouço orientado ao \emph{autotuning online}
-de programas, dependendo dos resultados das pesquisas e atividades realizadas 
+implementadas as técnicas estudadas nos anos anteriores, e serão implementadas
+soluções para o problema do \emph{autotuning online} e no caso geral baseadas
+no algoritmo \emph{portfolio}. Serão realizados experimentos com todas as 
+implementações realizadas, através da análise de seu desempenho solução dos 
+\emph{benchmarks} utilizados pelo sistema PetaBricks e do \emph{benchmark} para
+problemas computacionalmente difíceis, que será elaborado como descrito na 
+seção \ref{sec:met}. Além disso, serão realizados testes de desempenho e 
+estudos relacionados ao desempenho das técnicas estudadas diferentes 
+arquiteturas computacionais, como por exemplo arquiteturas heterogêneas e 
+\emph{multicore}. Finalmente, serão feitas implementações de abstrações de alto
+nível, que deverão encapsular as implementações dos conceitos estudados 
+anteriormente, facilitando sua utilização como biblioteca, e que podem
+tomar a forma de um arcabouço orientado ao \emph{autotuning online} de 
+programas, dependendo dos resultados das pesquisas e atividades realizadas 
 nos períodos anteriores.
 
 \begin{figure}[H]
@@ -829,14 +835,14 @@ nos períodos anteriores.
     >{\centering\arraybackslash}p{3cm} | 
     >{\centering\arraybackslash}p{3cm} | 
     >{\centering\arraybackslash}p{3cm} |}
-    \multicolumn{4}{c}{Anos do Doutorado Direto} \\
+    \multicolumn{4}{c}{} \\
     \hline
-    1º & 2º & 3º & 4º \\ \hline 
-    \cellcolor{gray!94} Estudo das Possibilidades das Técnicas  & \cellcolor{gray!8} Implementação do algoritmo \emph{portfolio} como técnica de \emph{autotuning} & \multicolumn{2}{l|}{\cellcolor{gray!94} Aplicação de benchmarks e testes de desempenho} \\ 
-    \cellcolor{gray!70} Estudo da Implementação do PetaBricks & \cellcolor{gray!32} Implementação do algoritmo \emph{portfolio} no \emph{autotuning online} & \multicolumn{2}{l|}{\cellcolor{gray!70} Implementação de abstrações de alto nível} \\ 
-    \cellcolor{gray!56} Estudo da Implementação do AMF & \cellcolor{gray!56} Submissão de proposta ao BEPE & \multicolumn{2}{l|}{} \\
-    \cellcolor{gray!32} Estudo da Implementação do OpenTuner & & \multicolumn{2}{l|}{} \\ 
-    \cellcolor{gray!8} Estudo das Possibilidades das Técnicas do AMF &  & \multicolumn{2}{l|}{} \\
+    1º Ano & 2º Ano & 3º Ano & 4º Ano \\ \hline 
+    \cellcolor{gray!94} Estudo das Possibilidades das Técnicas do AMF  & \cellcolor{gray!8} Estudo do algoritmo \emph{portfolio} no \emph{autotuning online} & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!94} Implementação do algoritmo \emph{portfolio} no contexto do \emph{autotuning online} e no caso geral} \\ 
+    \cellcolor{gray!70} Estudo da Implementação do PetaBricks & \cellcolor{gray!32} Implementação das possibilidades estudadas & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!70} Implementação de abstrações alto nível para as implementações já realizadas} \\ 
+    \cellcolor{gray!56} Estudo da Implementação do AMF & \cellcolor{gray!56} Estudo do algoritmo \emph{portfolio} no caso geral do \emph{autotuning} & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!56} Aplicação de benchmarks e testes de desempenho em diferentes arquiteturas} \\
+    \cellcolor{gray!32} Estudo da Implementação do OpenTuner & \cellcolor{gray!70} Submissão de proposta ao BEPE & \multicolumn{2}{l|}{} \\ 
+    \cellcolor{gray!8} Revisão Bibliográfica &  & \multicolumn{2}{l|}{} \\
     \hline
     \end{tabular}
 \end{center}
