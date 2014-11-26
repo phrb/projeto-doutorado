@@ -326,18 +326,19 @@ por um conjunto de variáveis e seus limites permitidos. As técnicas de busca
 utilizadas na otimização podem ser escolhidas pela aplicação, e novas técnicas
 podem ser implementadas. O OpenTuner utiliza uma técnica para a 
 distribuição dos recursos computacionais disponíveis entre as 
-diversas técnicas de busca implementadas, chamada de meta-técnica.
+diversas técnicas de busca implementadas, chamada de metatécnica.
 Simplificadamente, quanto melhores os resultados encontrados por uma técnica de
 busca, mais recursos computacionais são disponibilizados a ela pela 
-meta-técnica. Assim como as técnicas de busca, novas meta-técnicas podem ser 
+metatécnica. Assim como as técnicas de busca, novas metatécnicas podem ser 
 implementadas para cada aplicação.
 
 Dentre as técnicas de busca já disponíveis no OpenTuner estão a busca 
 aleatória, a evolução diferencial e o método Nelder-Mead. Esse conjunto
 de técnicas, chamado de \emph{ensemble}, pretende ter bom desempenho em espaços
 de busca bem variados, e pode ser ajustado para cada aplicação. Por padrão, o 
-OpenTuner utiliza uma adaptação da técnica \emph{AUC Bandit}, apresentada por 
-\citet{pacula2012bandit}, como meta-técnica para distribuição de recursos 
+OpenTuner utiliza uma adaptação da técnica MAB AUC (\emph{Multi Armed Bandit, 
+with Area Under the Curve Credit Assignment}), como apresentada em 
+\citet{pacula2012bandit}, como metatécnica para distribuição de recursos 
 computacionais entre as técnicas de um \emph{ensemble}.
 
 \subsection{PetaBricks} \label{sec:peta}
@@ -743,20 +744,22 @@ PetaBricks e AMF, respectivamente.
 \section{Cronograma} \label{sec:sched}
 
 A figura \ref{fig:sched} apresenta o cronograma das atividades que serão
-desenvolvidas durante o projeto. No primeiro semestre será feito um estudo 
-da literatura da área de otimização automática, garantindo que os objetivos 
-do projeto se mantenham atuais e relevantes para a área. Ainda no primeiro 
-semestre, serão estudados os detalhes da arquitetura e da implementação dos 
-sistemas PetaBricks e AMF, facilitando a implementação da integração das 
-estratégias para cálculo de distribuição de recursos computacionais entre 
-heurísticas --- como implementadas no AMF --- ao \emph{autotuner} 
-do PetaBricks.
+desenvolvidas durante o projeto. 
+No primeiro ano serão estudadas a fundo as implementações dos sistemas
+PetaBricks, AMF e OpenTuner, com o intuito de analisar e propor possibilidades
+de aplicação do algoritmo \emph{portfolio} e da solução do dRSSP --- como 
+utilizados no AMF --- na composição das técnicas utilizadas pelos outros dois
+sistemas na solução do problema do \emph{autotuning}. Inicialmente, serão 
+estudadas a utilização da estratégia do AMF para o cálculo de distribuições de
+recursos computacionais entre diferentes heurísticas como metatécnica para 
+seleção de métodos de busca no OpenTuner, como seletora de operadores de 
+mutação no algoritmo genético do PetaBricks --- em comparação com o MAB AUC ---
+e como técnica de \emph{autotuning} independente no PetaBricks e no OpenTuner, 
+especificamente na otimização da solução de problemas de decisão 
+computacionalmente difíceis, como por exemplo o problema de satisfabilidade 
+booliana.
 
-Nos semestres subsequentes será iniciado o ciclo de desenvolvimento, que 
-compreenderá a execução concomitante das atividades de implementação, testes de
-funcionalidade e de desempenho --- utilizando o \textit{benchmark} 
-mencionado na Seção \ref{sec:met} --- e correções de erros de
-implementação, orientadas pelos resultados obtidos nos testes.
+No segundo ano, serão estudadas.
 
 \begin{figure}[H]
     \centering
