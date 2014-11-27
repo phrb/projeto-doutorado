@@ -109,7 +109,7 @@
     \normalsize{\emph{DCC - IME\\
     Universidade de São Paulo}\\}
 
-    %\vskip 2cm
+    % Correct Line width for this document:
     %\begin{abstract}
     %\rule{\linewidth}{.1mm} \\
     %\rule{\linewidth}{.1mm} \\
@@ -120,26 +120,39 @@
 \end{center}
 
 \newpage
-\tableofcontents
-\newpage
 
-\begin{abstract}
-    
+\abstract
+\noindent
+\rule{\linewidth}{.1mm} \\
+\noindent
 A grande variedade de arquiteturas de computador torna o desenvolvimento e a 
-otimização de programas com eficiência portável um esforço que deve ser 
-repetido para cada nova arquitetura. Trabalhos na área da otimização automática
-de programas utilizam métodos empíricos, auxiliados pela crescente
-disponibilidade de ciclos computacionais, para realizar uma busca por escolhas
-de implementação e compilação que otimizem o desempenho da solução de um 
-problema em diferentes arquiteturas de computador. O objetivo deste projeto de
-pesquisa é utilizar as técnicas de Multi-Seleção e execução em algoritmo 
-\emph{portfolio} --- como implementadas no sistema AMF --- para resolver 
-problemas computacionalmente difíceis, no contexto do \emph{autotuner} do 
-sistema PetaBricks, que utiliza abstrações no nível de linguagem para 
-especificar espaços de soluções de um mesmo problema, e otimiza a solução para 
-uma dada arquitetura através de um processo de escolha algorítmica.
+otimização de programas eficientes um esforço que deve ser repetido para cada 
+nova arquitetura em que se pretenda atingir um desempenho equivalente.
+Trabalhos na área da otimização automática de programas utilizam métodos 
+empíricos para realizar uma busca por escolhas de implementação e compilação.
+Auxiliados pela crescente disponibilidade de ciclos computacionais,
+buscam encontrar escolhas que otimizem o desempenho da solução de um problema
+em diferentes arquiteturas de computador. Os objetivos deste projeto de 
+pesquisa relacionam-se ao estudo das possibilidades das estratégias para 
+Multi-Seleção e execução em algoritmo \emph{portfolio} implementadas no sistema
+AMF, e seu uso como técnicas de \emph{autotuning}.
+Essas estratégias serão implementadas como componenetes dos sistemas PetaBricks
+e OpenTuner, para a resolução de casos que envolvam problemas de decisão 
+computacionalmente difíceis. 
+Serão também adaptadas à solução do problema do \emph{autotuning online}, e ao 
+\emph{autotuning} de problemas de otimização.
+O desempenho das estratégias implementadas será medido em arquiteturas 
+computacionais variadas, e analisado através de um conjunto de 
+\emph{benchmarks}. As estratégias implementadas devem permitir a especificação
+dos espaços de soluções de um mesmo problema, e a otimização automática da 
+solução de instâncias desse problema em uma dada arquitetura.
 
-\end{abstract}
+\noindent
+\rule{\linewidth}{.1mm} \\
+
+\tableofcontents
+
+\newpage
 
 \section{Introdução}
 
@@ -238,6 +251,8 @@ seleção do melhor algoritmo para multiplicação de matrizes e de seleção de
 \emph{flags} de compilador, um bom candidato para solução por 
 \emph{autotuning}.
 
+\subsubsection{Descrição do Problema}
+
 O problema do \emph{autotuning}, através do processo de escolha algorítmica,
 pode ser descrito da seguinte forma (\citet{ansel2011efficient}):
 
@@ -286,6 +301,8 @@ $n$, e deve satisfazer:
     t^* = T(P^*,H,n) \leq T(P_{s^*,s_{t}^{*}},H,n), \quad \forall s \in S, \quad \forall s_t \in S_t
 \end{equation*}
 
+\subsubsection{Algumas Características do Problema}
+
 Em problemas computacionalmente fáceis, o tempo de execução dos programas
 especificados pelos seletores será polinomialmente proporcional ao tamanho da 
 entrada, facilitando o uso de testes empíricos para determinar as melhores
@@ -298,7 +315,7 @@ daquele para o caso de problemas computacionalmente fáceis.
 
 O tempo de execução dos programas especificados pelos seletores também sofre
 interferência de muitos outros fatores, como por exemplo outros processos 
-executados pelo sistema operacional, que competem por recursos computacionais.
+executados pelo sistema operacional competindo por recursos computacionais.
 As propriedades da avaliação do desempenho de soluções para diferentes classes 
 de problema contribuirão para o desenvolvimento e a escolha dos métodos
 que serão utilizados no \emph{autotuner}.
@@ -372,7 +389,7 @@ A técnica $t$ que maximizar o MAB AUC realizará o teste atual. O MAB AUC é
 representado por:
 
 \begin{equation*}
-    max (AUC_t + C\sqrt{\frac{2lg|H|}{H_t}})
+    max \left( AUC_t + C\sqrt{\frac{2log|H|}{H_t}} \right)
 \end{equation*}
 
 Onde $C$ é o termo responsável por controlar o balanço entre a exploração de 
@@ -546,8 +563,8 @@ começa em $1$ e dobra a cada geração.
 
 \subsection{Adaptive Multi-Selection Framework} \label{sec:amf}
 
-O \emph{Adaptive Multi-Selection Framework}, ou AMF 
-(\citet{goldman2012framework}), permite resolver instâncias de um problema 
+O \emph{Adaptive Multi-Selection Framework} (AMF) é apresentado em 
+\citet{goldman2012framework} e permite resolver instâncias de um problema
 através de combinações de algoritmos para solução dessas instâncias. 
 Os algoritmos a ser combinados e as instâncias a ser resolvidas são
 especificados numa aplicação do AMF, que pode também fornecer dados sobre
@@ -557,18 +574,18 @@ computacionais disponíveis --- por exemplo, núcleos do processador --- entre
 esses algoritmos, de acordo com seu desempenho na solução das instâncias 
 apresentadas. Para isso, utiliza heurísticas para a aproximação do problema do
 escalonamento da distribuição de recursos, assumindo que
-um recurso não pode ser dividido entre algoritmos, e que nenhum recurso 
-deixará de ser utilizado --- o problema, abreviado como dRSSP (\emph{Discrete 
-Resource Sharing Scheduling Problem}), é descrito e estudado por 
+um recurso não pode ser dividido entre algoritmos e que nenhum recurso 
+deixará de ser utilizado. O \emph{Discrete Resource Sharing Scheduling Problem}
+(dRSSP) é descrito e estudado em 
 \citet{bougeret2009combining,bougeret2011approximating}. Finalmente,
 a divisão de recursos selecionada é executada como um algoritmo 
 \emph{portfolio} (\citet{huberman1997economics}).
 
 O AMF é implementado em C/C++ e seu componente central é o 
-\textbf{AMF\_Learner}, que obtém informações sobre a arquitetura
+\textbf{AMF\_Learner}. Esse componente obtém informações sobre a arquitetura
 alvo, serve de base de conhecimentos para os demais componentes,
 e gera a combinação de algoritmos para as aplicações registradas no
-arcabouço. A resolução de uma instância através da aplicação é coordenada pelo 
+arcabouço. A resolução de uma instância através da aplicação é coordenada pelo
 componente \textbf{AMF\_Solver} que, com as otimizações para distribuição de 
 recursos calculadas pelo componente \textbf{AMF\_Optimizer}, executa o 
 algoritmo \emph{portfolio} através do componente \textbf{AMF\_Portfolio}.
@@ -742,19 +759,43 @@ Em \citet{cooper2002adaptive}, defende-se o uso de métodos de busca
 por seleção aleatória e descreve-se um arcabouço para implementação
 de compiladores adaptativos.
 
-\section{Objetivo} \label{sec:obj}
+\section{Objetivos} \label{sec:obj}
 
-O objetivo deste projeto de pesquisa é implementar as estratégias para o 
-cálculo de distribuições de recursos computacionais e execução de algoritmos 
-\emph{portfolio}, utilizadas no AMF (\citet{goldman2012framework}), como método
-para o \emph{autotuning} de problemas computacionalmente difíceis --- 
-NP-completos, por exemplo --- no sistema PetaBricks (\citet{ansel2014phd}).
-Essas estratégias devem substituir o \emph{autotuner} do PetaBricks quando o 
-problema a ser resolvido for computacionalmente difícil, calculando uma
-distribuição de recursos computacionais para as possibilidades algorítmicas 
-especificadas num programa na linguagem PetaBricks. As estratégias devem também
-implementar um ambiente de execução que dê suporte à execução de um 
-\emph{portfolio} com a distribuição calculada.
+Os objetivos deste projeto de pesquisa são estudar e implementar as 
+possibilidades das estratégias empregadas pelo AMF 
+(\citet{goldman2012framework}) como técnicas de \emph{autotuning}. 
+As estratégias para o cálculo de distribuições de recursos computacionais 
+e para a execução de algoritmos \emph{portfolio} serão inicialmente 
+implementadas como componentes dos sistemas PetaBricks (\citet{ansel2014phd}) e
+OpenTuner (\citet{ansel2013opentuner}). 
+
+Inicialmente, serão exploradas as possibilidades de se utilizar as estratégias
+do AMF como metatécnica para distribuição de testes entre as técnicas de busca
+do OpenTuner; como técnica para a seleção de operadores de mutação no algoritmo
+genético utilizado pelo PetaBricks; e como técnica de \emph{autotuning} para 
+problemas de decisão computacionalmente difíceis. Serão estudados também a 
+adaptação e o desempenho das estratégias do AMF na solução de problemas de 
+\emph{autotuning online} e de problemas de otimização.
+
+As estratégias implementadas deverão ser capazes de encontrar soluções que 
+tenham bom desempenho em diferentes arquiteturas computacionais,
+como por exemplo arquiteturas heterogêneas e \emph{multicore}. 
+O desempenho será medido através de um conjunto de \emph{benchmarks}, que deve 
+contemplar problemas de decisão computacionalmente difíceis e problemas 
+de otimização. Também serão desenvolvidas abstrações de alto nível para 
+as estratégias implementadas, facilitando sua reutilização como 
+biblioteca ou arcabouço. 
+Durante o desenvolvimento da pesquisa será realizada uma busca na literatura
+por outros sistemas de referência no problema do \emph{autotuning}, que possam
+auxiliar nas implementações e servir como comparação de desempenho.
+
+Será submetida uma proposta ao programa BEPE durante o projeto de 
+pesquisa, com objetivo de se realizar um estágio no exterior. As
+instituições contatadas serão o \emph{Massachusetts Institute of Technology}
+(Estados Unidos), a \emph{University of Illinois at Urbana-Champaign} 
+(Estados Unidos), e o \emph{Institut National Polythecnique De Grenoble} 
+(França).
+
 
 \section{Metodologia} \label{sec:met}
 
@@ -783,7 +824,7 @@ PetaBricks e AMF, respectivamente.
 A figura \ref{fig:sched} apresenta o cronograma das atividades que serão
 desenvolvidas durante o projeto. 
 No primeiro ano serão realizados estudos da literatura relacionada ao projeto,
-visando manter os objetivos coerentes com os desenvolvimentos na área e
+visando manter os objetivos orientados aos desenvolvimentos na área e
 estudar novos sistemas. Ainda no primeiro ano, serão estudadas a fundo as 
 implementações dos sistemas PetaBricks, AMF e OpenTuner, com o intuito de 
 analisar e propor possibilidades de aplicação do algoritmo \emph{portfolio} e 
@@ -803,30 +844,34 @@ computacionais entre diferentes heurísticas em três situações:
         utilizado no PetaBricks, em comparação com o MAB AUC;
 \end{itemize}
 
-No segundo ano serão implementadas as possibilidades estudadas no primeiro ano,
-e serão estudadas a adaptação e a utilização do algoritmo 
-\emph{portfolio} na solução do problema do \emph{autotuning online} e no caso 
-geral, isto é, não restrito a problemas de decisão computacionalmente difíceis.
-Durante a duração do programa de Doutorado Direto, e passado o tempo mínimo de 
-matrícula exigido pela FAPESP, submeteremos um projeto de pesquisa para estágio
-no exterior através do programa BEPE.
+No segundo ano serão implementadas as possibilidades estudadas no primeiro ano.
+Serão estudadas a adaptação e a utilização do algoritmo \emph{portfolio} na 
+solução do problema do \emph{autotuning online} e no caso não restrito a 
+problemas de decisão computacionalmente difíceis. Os conhecimentos adquiridos
+durante a revisão bibliográfica do primeiro ano permitirão realizar no segundo 
+ano uma busca na literatura por possíveis outros sistemas de referência para o 
+projeto. Durante a duração do programa de Doutorado Direto, e passado o tempo 
+mínimo de matrícula exigido pela FAPESP, submeteremos um projeto de pesquisa 
+para estágio no exterior através do programa BEPE.
 
 No terceiro e quarto anos do programa de Doutorado Direto continuarão sendo 
-implementadas as técnicas estudadas nos anos anteriores, e serão implementadas
-soluções para o problema do \emph{autotuning online} e no caso geral baseadas
-no algoritmo \emph{portfolio}. Serão realizados experimentos com todas as 
-implementações realizadas, através da análise de seu desempenho solução dos 
-\emph{benchmarks} utilizados pelo sistema PetaBricks e do \emph{benchmark} para
-problemas computacionalmente difíceis, que será elaborado como descrito na 
-seção \ref{sec:met}. Além disso, serão realizados testes de desempenho e 
-estudos relacionados ao desempenho das técnicas estudadas diferentes 
-arquiteturas computacionais, como por exemplo arquiteturas heterogêneas e 
-\emph{multicore}. Finalmente, serão feitas implementações de abstrações de alto
+implementadas as técnicas estudadas nos anos anteriores. Serão implementadas
+soluções para o problema do \emph{autotuning online} e de problemas de 
+otimização baseadas no algoritmo \emph{portfolio}. 
+
+Serão realizados experimentos com todas as implementações, através da análise 
+de seu desempenho. Utilizaremos, a princípio, os \emph{benchmarks} dos sistemas
+PetaBricks e OpenTuner, e o \emph{benchmark} para problemas computacionalmente
+difíceis, que será elaborado como descrito na seção \ref{sec:met}. 
+Os testes e estudos de desempenho das implementações também serão realizados 
+em diferentes arquiteturas computacionais, como por exemplo arquiteturas 
+heterogêneas e \emph{multicore}. 
+
+Finalmente, serão feitas implementações de abstrações de alto
 nível, que deverão encapsular as implementações dos conceitos estudados 
-anteriormente, facilitando sua utilização como biblioteca, e que podem
-tomar a forma de um arcabouço orientado ao \emph{autotuning online} de 
-programas, dependendo dos resultados das pesquisas e atividades realizadas 
-nos períodos anteriores.
+anteriormente. Essas abstrações devem facilitar a uso das implementações 
+realizadas como biblioteca, e podem tomar a forma de um arcabouço para o 
+\emph{autotuning online} de programas.
 
 \begin{figure}[H]
     \centering
@@ -838,11 +883,11 @@ nos períodos anteriores.
     \multicolumn{4}{c}{} \\
     \hline
     1º Ano & 2º Ano & 3º Ano & 4º Ano \\ \hline 
-    \cellcolor{gray!94} Estudo das Possibilidades das Técnicas do AMF  & \cellcolor{gray!8} Estudo do algoritmo \emph{portfolio} no \emph{autotuning online} & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!94} Implementação do algoritmo \emph{portfolio} no contexto do \emph{autotuning online} e no caso geral} \\ 
+    \cellcolor{gray!84} Estudo das Possibilidades das Técnicas do AMF  & \cellcolor{gray!16} Estudo do algoritmo \emph{portfolio} no \emph{autotuning online} & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!84} Implementação do algoritmo \emph{portfolio} no contexto do \emph{autotuning online} e de problemas de otimização} \\ 
     \cellcolor{gray!70} Estudo da Implementação do PetaBricks & \cellcolor{gray!32} Implementação das possibilidades estudadas & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!70} Implementação de abstrações alto nível para as implementações já realizadas} \\ 
-    \cellcolor{gray!56} Estudo da Implementação do AMF & \cellcolor{gray!56} Estudo do algoritmo \emph{portfolio} no caso geral do \emph{autotuning} & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!56} Aplicação de benchmarks e testes de desempenho em diferentes arquiteturas} \\
-    \cellcolor{gray!32} Estudo da Implementação do OpenTuner & \cellcolor{gray!70} Submissão de proposta ao BEPE & \multicolumn{2}{l|}{} \\ 
-    \cellcolor{gray!8} Revisão Bibliográfica &  & \multicolumn{2}{l|}{} \\
+    \cellcolor{gray!56} Estudo da Implementação do AMF & \cellcolor{gray!56} Busca por novos sistemas de referência & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!56} Aplicação de benchmarks e testes de desempenho em diferentes arquiteturas} \\
+    \cellcolor{gray!32} Estudo da Implementação do OpenTuner & \cellcolor{gray!70} Estudo do algoritmo \emph{portfolio} no \emph{autotuning} de problemas de otimização & \multicolumn{2}{l|}{} \\ 
+    \cellcolor{gray!16} Revisão Bibliográfica &  \cellcolor{gray!84} Submissão de proposta ao BEPE & \multicolumn{2}{l|}{} \\
     \hline
     \end{tabular}
 \end{center}
