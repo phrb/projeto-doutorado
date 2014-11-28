@@ -81,15 +81,14 @@
 
 \thispagestyle{empty}
 \begin{center}
-    \vspace*{5cm}
-    \textbf{\Large{Otimização Automática para Desempenho Portável \\
-            de Soluções de Problemas NP}}\\
+    \vspace*{4cm}
+    \textbf{\Large{Resolução Automatizada de Problemas Difíceis \\ em Ambientes Heterogêneos: \\ Uma Abordagem baseada em \\ Combinação, Sintonia Fina e Adaptação}}\\
 
     \vskip 1cm
 
-    \textsc{Projeto de Pesquisa}
+    \textsc{Projeto de Pesquisa para Doutorado Direto}
 
-    \vskip 2cm
+    \vskip 3cm
 
     \begin{minipage}{.4\linewidth}
         \begin{flushleft}
@@ -127,7 +126,7 @@
 \noindent
 A grande variedade de arquiteturas de computador torna o desenvolvimento e a 
 otimização de programas eficientes um esforço que deve ser repetido para cada 
-nova arquitetura em que se pretenda atingir um desempenho equivalente.
+nova arquitetura em que se pretenda atingir um bom desempenho.
 Trabalhos na área da otimização automática de programas utilizam métodos 
 empíricos para realizar uma busca por escolhas de implementação e compilação.
 Auxiliados pela crescente disponibilidade de ciclos computacionais,
@@ -136,7 +135,7 @@ em diferentes arquiteturas de computador. Os objetivos deste projeto de
 pesquisa relacionam-se ao estudo das possibilidades das estratégias para 
 Multi-Seleção e execução em algoritmo \emph{portfolio} implementadas no sistema
 AMF, e seu uso como técnicas de \emph{autotuning}.
-Essas estratégias serão implementadas como componenetes dos sistemas PetaBricks
+Essas estratégias serão implementadas como componentes dos sistemas PetaBricks
 e OpenTuner, para a resolução de casos que envolvam problemas de decisão 
 computacionalmente difíceis. 
 Serão também adaptadas à solução do problema do \emph{autotuning online}, e ao 
@@ -162,49 +161,60 @@ e métodos de acesso a memória, criam novas possibilidades para o
 desenvolvimento de aplicações paralelas. Somando-se a esses avanços, o contínuo
 barateamento e o aumento da disponibilidade de ciclos de processamento incitam 
 a exploração de métodos empíricos e automáticos para a otimização de programas,
-em busca da portabilidade não só de execução, mas também de desempenho. Este 
-projeto de pesquisa relaciona alguns desenvolvimentos na área da otimização
-automática de programas, e tem como objetivo combinar as estratégias utilizadas
-nos sistemas PetaBricks (\citet{ansel2014phd}) e AMF 
-(\citet{goldman2012framework}), para solução --- com eficiência portável entre
-arquiteturas --- de problemas computacionalmente difíceis.
+em busca da portabilidade não só de execução, mas também de desempenho. 
 
 Encontram-se na literatura diversos de métodos e ferramentas para otimização 
 automática de código que visam minimizar o esforço associado ao desenvolvimento
 e manutenção de código portável, funcional e eficiente. Motivados pela grande
 variedade e rápida mudança das arquiteturas de computador atuais, esses 
 trabalhos procuram explorar de forma mais completa o paralelismo inerente a
-elas, proveniente de múltiplos núcleos de processamento, 
+essas arquiteturas. Esse potencial paralelismo é proveniente de diversas 
+características, como por exemplo múltiplos núcleos de processamento, 
 diferentes arquiteturas de memória distribuída, compartilhada (de acesso 
 uniforme, não uniforme), e auxílio de coprocessadores.
 
-A otimização automática de um programa pode envolver modelagens da
-arquitetura alvo, exigindo conhecimentos específicos sobre o problema e a
-máquina --- ou buscas empíricas no espaço de possíveis soluções, encontrando
-a melhor otimização através de técnicas de aprendizado de máquina e medidas de
-desempenho.
+A estratégia para a otimização automática de um programa pode envolver 
+modelagens da arquitetura alvo, o que exige conhecimentos específicos sobre o 
+problema e a máquina em questão. Por outro lado, podem ser utilizadas técnicas
+de aprendizado de máquina para realizar buscas empíricas no espaço de possíveis
+soluções de um problema, encontrando a melhor otimização através de medidas de 
+desempenho numa dada arquitetura de computador.
 
-No processo de busca empírica, alguns compiladores realizam uma calibragem dos 
-parâmetros de compilação (\citet{bilmes1997,whaley1998}) para a arquitetura 
-alvo, e utilizam essa calibragem para gerar código otimizado para essa 
-arquitetura. 
+Dentre os trabalhos que implementam estratégias de otimização automática 
+baseadas no processo de busca empírica, alguns compiladores realizam uma 
+calibragem dos parâmetros de compilação (\citet{bilmes1997,whaley1998}) para a
+arquitetura alvo, e utilizam essa calibragem para gerar código otimizado para
+essa arquitetura. Este processo é feito uma única vez em tempo de instalação
+do sistema, e deve ser repetido em cada nova arquitetura.
 
 Outros trabalhos (\citet{goldman2012framework,mitcsail-tr:2014,
-vuduc2004}) propõe uma abordagem diferente, onde são geradas e executadas 
-variadas combinações de algoritmos que resolvem um mesmo problema, comparando 
-seus desempenhos para selecionar a melhor combinação para uma dada arquitetura.
-Os enormes espaços de busca resultantes das diferentes formas de se implementar
-um algoritmo --- ou combinações deles --- em determinada arquitetura, e a 
-dificuldade de se modelar o impacto de pequenas variações na implementação 
-desses algoritmos, também motivam o desenvolvimento de técnicas empíricas para
-busca nesses espaços.
+vuduc2004}) propõe uma abordagem diferente, que envolve gerar e executar
+combinações algorítmicas para a solução de um mesmo problema. A melhor
+combinação é então selecionada empiricamente através da técnica de busca
+implementada pelo trabalho.
 
-Nesta seção são discutidos o problema da otimização automática
-(Seção \ref{sec:autotuning}) e os sistemas PetaBricks (Seção \ref{sec:peta}) e
-AMF (Seção \ref{sec:amf}). O restante do projeto é organizado da seguinte 
-forma: A Seção \ref{sec:trabrel} apresenta um levantamento bibliográfico com os
-principais trabalhos relacionados à proposta do projeto.
-A Seção \ref{sec:obj} apresenta os objetivos do projeto. Na Seção 
+Os enormes espaços de busca resultantes da combinação das diferentes formas de
+se implementar um algoritmo para solução de um determinado problema motivam
+a pesquisa e o desenvolvimento de técnicas empíricas de busca. Outros fatores 
+também compõe essa motivação, como a dificuldade de se modelar o impacto no 
+desempenho de pequenas variações na implementação dos algoritmos, e a grande 
+quantidade de variáveis de arquitetura e de ambiente envolvidas na execução de 
+um programa.
+
+A seguir será feita uma exposição do problema da otimização automática 
+(Seção \ref{sec:autotuning}), que contextualizará uma discussão das 
+estratégias para otimização implementadas pelos sistemas 
+OpenTuner (Seção \ref{sec:opent}), PetaBricks (Seção \ref{sec:peta}) e AMF
+(Seção \ref{sec:amf}). O objetivo deste projeto de pesquisa é explorar as 
+possibilidades das técnicas para cálculo e execução de algoritmos
+\emph{portfolio}, implementadas no AMF, no desenvolvimento de soluções para o
+problema da otimização automática, no contexto de diferentes arquiteturas 
+computacionais.
+
+O restante deste projeto está organizado da seguinte forma: 
+A Seção \ref{sec:trabrel} apresenta um levantamento bibliográfico com breves
+discussões sobre os principais trabalhos relacionados à proposta.
+A Seção \ref{sec:obj} detalha os objetivos do projeto. Na Seção 
 \ref{sec:met}, discute-se a metodologia de desenvolvimento e avaliação de 
 resultados. Finalmente, a Seção \ref{sec:sched} apresenta um plano de trabalho
 e um cronograma para seu desenvolvimento. 
@@ -223,7 +233,7 @@ resultados de testes que realiza durante o desenvolvimento.
 
 No entanto, as arquiteturas de computador atuais variam muito, num grande 
 espectro de, por exemplo, tamanhos de \emph{RAM},
-velocidades e modos de acesso a níves de memória e armazenamento, número de 
+velocidades e modos de acesso a níveis de memória e armazenamento, número de 
 núcleos no processador, e coprocessadores --- \emph{GPU}s, entre outros 
 --- que apresentam ainda sua própria gama de variação.
 
@@ -324,7 +334,7 @@ Alguns detalhes do algoritmo para o \emph{autotuning} utilizado pelo PetaBricks
 são discutidos na Seção \ref{sec:autotuner}, e a estratégia utilizada pelo AMF
 é discutida na Seção \ref{sec:multsel}.
 
-\subsection{OpenTuner}
+\subsection{OpenTuner} \label{sec:opent}
 
 As técnicas de \emph{autotuning} geram programas com desempenho melhor e 
 muitas vezes portável, podendo atingir desempenho semelhante em diferentes 
@@ -769,7 +779,7 @@ e para a execução de algoritmos \emph{portfolio} serão inicialmente
 implementadas como componentes dos sistemas PetaBricks (\citet{ansel2014phd}) e
 OpenTuner (\citet{ansel2013opentuner}). 
 
-Inicialmente, serão exploradas as possibilidades de se utilizar as estratégias
+Serão exploradas as possibilidades de se utilizar as estratégias
 do AMF como metatécnica para distribuição de testes entre as técnicas de busca
 do OpenTuner; como técnica para a seleção de operadores de mutação no algoritmo
 genético utilizado pelo PetaBricks; e como técnica de \emph{autotuning} para 
@@ -803,9 +813,9 @@ Primeiro, será feito um levantamento bibliográfico e um estudo da literatura
 relacionada à área de otimização automática utilizando, entre outros, o método 
 para leitura de trabalhos apresentado por \citet{keshav2007howtoread}. 
 Concomitantemente, serão  estudadas a fundo a implementação e a arquitetura dos
-sistemas PetaBricks e AMF, para facilitar a especificação das funcionalidades,
-classes e estruturas que deverão ser implementadas durante processo de 
-desenvolvimento.
+sistemas OpenTuner, PetaBricks e AMF, para facilitar a especificação das 
+funcionalidades, classes e estruturas que deverão ser implementadas durante 
+processo de desenvolvimento.
 
 Depois, iniciaremos o ciclo de desenvolvimento das estruturas especificadas
 para a implementação dos objetivos, que compreende a implementação, 
@@ -816,7 +826,7 @@ tempo de execução dessas soluções já otimizadas. Um conjunto de instâncias
 problemas computacionalmente difíceis será escolhido para compor
 um \emph{benchmark} de testes de desempenho, e devem incluir, entre outros, 
 instâncias do problema do \emph{bin packing} e do problema de satisfazibilidade
-booliana, problemas já utilizados na avaliação de desempenho dos sistema 
+booleana, problemas já utilizados na avaliação de desempenho dos sistema 
 PetaBricks e AMF, respectivamente.
 
 \section{Cronograma} \label{sec:sched}
@@ -838,10 +848,10 @@ computacionais entre diferentes heurísticas em três situações:
     \item Como técnica de \emph{autotuning} independente, implementada 
         no PetaBricks e OpenTuner, especificamente na solução de problemas
         de decisão computacionalmente difíceis, como por exemplo o problema
-        de satisfabilidade booliana.
+        de satisfabilidade booleana.
     \item Como metatécnica para seleção de métodos de busca no OpenTuner;
     \item Como seletora de operadores de mutação do algoritmo genético 
-        utilizado no PetaBricks, em comparação com o MAB AUC;
+        utilizado no PetaBricks, em comparação com o MAB AUC.
 \end{itemize}
 
 No segundo ano serão implementadas as possibilidades estudadas no primeiro ano.
@@ -857,7 +867,9 @@ para estágio no exterior através do programa BEPE.
 No terceiro e quarto anos do programa de Doutorado Direto continuarão sendo 
 implementadas as técnicas estudadas nos anos anteriores. Serão implementadas
 soluções para o problema do \emph{autotuning online} e de problemas de 
-otimização baseadas no algoritmo \emph{portfolio}. 
+otimização baseadas no algoritmo \emph{portfolio}. O cronograma menos detalhado
+para esses dois anos resulta de que o desenvolvimento das atividades deste
+período anos depende fortemente dos resultados dos anos anteriores.
 
 Serão realizados experimentos com todas as implementações, através da análise 
 de seu desempenho. Utilizaremos, a princípio, os \emph{benchmarks} dos sistemas
@@ -876,18 +888,20 @@ realizadas como biblioteca, e podem tomar a forma de um arcabouço para o
 \begin{figure}[H]
     \centering
 \begin{center}
-    \begin{tabular}{ | >{\centering\arraybackslash}p{3cm} | 
-    >{\centering\arraybackslash}p{3cm} | 
-    >{\centering\arraybackslash}p{3cm} | 
-    >{\centering\arraybackslash}p{3cm} |}
+    \begin{tabular}{ | >{\centering\arraybackslash}p{3.25cm} | 
+    >{\centering\arraybackslash}p{3.25cm} | 
+    >{\centering\arraybackslash}p{3.25cm} | 
+    >{\centering\arraybackslash}p{3.25cm} |}
     \multicolumn{4}{c}{} \\
     \hline
     1º Ano & 2º Ano & 3º Ano & 4º Ano \\ \hline 
-    \cellcolor{gray!84} Estudo das Possibilidades das Técnicas do AMF  & \cellcolor{gray!16} Estudo do algoritmo \emph{portfolio} no \emph{autotuning online} & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!84} Implementação do algoritmo \emph{portfolio} no contexto do \emph{autotuning online} e de problemas de otimização} \\ 
-    \cellcolor{gray!70} Estudo da Implementação do PetaBricks & \cellcolor{gray!32} Implementação das possibilidades estudadas & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!70} Implementação de abstrações alto nível para as implementações já realizadas} \\ 
-    \cellcolor{gray!56} Estudo da Implementação do AMF & \cellcolor{gray!56} Busca por novos sistemas de referência & \multicolumn{2}{p{6.44cm}|}{\cellcolor{gray!56} Aplicação de benchmarks e testes de desempenho em diferentes arquiteturas} \\
-    \cellcolor{gray!32} Estudo da Implementação do OpenTuner & \cellcolor{gray!70} Estudo do algoritmo \emph{portfolio} no \emph{autotuning} de problemas de otimização & \multicolumn{2}{l|}{} \\ 
-    \cellcolor{gray!16} Revisão Bibliográfica &  \cellcolor{gray!84} Submissão de proposta ao BEPE & \multicolumn{2}{l|}{} \\
+    \cellcolor{gray!96} Estudo das Possibilidades das Técnicas do AMF  & \cellcolor{gray!14} Estudo do algoritmo \emph{portfolio} no \emph{autotuning online} & \multicolumn{2}{p{7cm}|}{\cellcolor{gray!96} Implementação do algoritmo \emph{portfolio} no contexto do \emph{autotuning online} e de problemas de otimização} \\ 
+    \cellcolor{gray!84} Estudo da Implementação do PetaBricks & \cellcolor{gray!28} Implementação das possibilidades estudadas & \multicolumn{2}{p{7cm}|}{\cellcolor{gray!70} Implementação de abstrações alto nível para as implementações já realizadas} \\ 
+    \cellcolor{gray!70} Estudo da Implementação do AMF & \cellcolor{gray!42} Busca por novos sistemas de referência & \multicolumn{2}{p{7cm}|}{\cellcolor{gray!56} Aplicação de benchmarks e testes de desempenho em diferentes arquiteturas} \\
+    \cellcolor{gray!56} Estudo da Implementação do OpenTuner & \cellcolor{gray!70} Estudo do algoritmo \emph{portfolio} no \emph{autotuning} de problemas de otimização & \multicolumn{2}{l|}{} \\ 
+    \cellcolor{gray!42} Revisão Bibliográfica &  \cellcolor{gray!84} Submissão de proposta ao BEPE & \multicolumn{2}{l|}{} \\
+    \cellcolor{gray!28} 2 disciplinas do programa por semestre &  \cellcolor{gray!96} 2 disciplinas do programa por semestre & \multicolumn{2}{l|}{} \\
+    \cellcolor{gray!14} Escolha de Benchmarks de Referência & \multicolumn{3}{l|}{} \\
     \hline
     \end{tabular}
 \end{center}
