@@ -1,6 +1,6 @@
 \documentclass[a4paper, 11pt]{article}
 
-\usepackage[brazilian]{babel}
+\usepackage[portuguese]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{array}
@@ -167,9 +167,9 @@ Encontram-se na literatura diversos de métodos e ferramentas para otimização
 automática de código que visam minimizar o esforço associado ao desenvolvimento
 e manutenção de código portável, funcional e eficiente. Motivados pela grande
 variedade e rápida mudança das arquiteturas de computador atuais, esses 
-trabalhos procuram explorar de forma mais completa o paralelismo inerente a
-essas arquiteturas. Esse potencial paralelismo é proveniente de diversas 
-características, como por exemplo múltiplos núcleos de processamento, 
+trabalhos procuram explorar de forma mais completa o paralelismo inerente às
+novas arquiteturas computacionais. Esse potencial paralelismo é proveniente de
+diversas características, como por exemplo múltiplos núcleos de processamento, 
 diferentes arquiteturas de memória distribuída, compartilhada (de acesso 
 uniforme, não uniforme), e auxílio de coprocessadores.
 
@@ -226,10 +226,10 @@ programador deve considerar, entre outros fatores, as possibilidades
 de implementação dos algoritmos que resolvem o problema, e as otimizações e 
 parâmetros disponibilizados pelo compilador.
 A escolha da melhor implementação de um algoritmo e do melhor conjunto de 
-valores para parâmetros de compilação depende em grande parte das arquiteturas 
-e ambientes em que se pretende executar o programa, e o programador realiza 
-essa escolha baseando-se em seus conhecimentos das arquiteturas alvo e 
-resultados de testes que realiza durante o desenvolvimento.
+valores para parâmetros de compilação depende em grande parte das arquiteturas
+e ambientes em que se pretende executar o programa. O programador realizará 
+as escolhas de implementação baseando-se em seus conhecimentos das arquiteturas
+alvo e resultados de testes que realiza durante o desenvolvimento.
 
 No entanto, as arquiteturas de computador atuais variam muito, num grande 
 espectro de, por exemplo, tamanhos de \emph{RAM},
@@ -330,6 +330,9 @@ As propriedades da avaliação do desempenho de soluções para diferentes class
 de problema contribuirão para o desenvolvimento e a escolha dos métodos
 que serão utilizados no \emph{autotuner}.
 
+No restante desta seção serão discutidas as estratégias, algoritmos e técnicas
+utilizadas pelos sistemas OpenTuner (Seção \ref{sec:opent}), PetaBricks (Seção
+\ref{sec:peta}
 Alguns detalhes do algoritmo para o \emph{autotuning} utilizado pelo PetaBricks
 são discutidos na Seção \ref{sec:autotuner}, e a estratégia utilizada pelo AMF
 é discutida na Seção \ref{sec:multsel}.
@@ -375,10 +378,10 @@ pelo OpenTuner tem como objetivo balancear a descoberta de novas técnicas
 de busca que dão bons resultados e a exploração de técnicas cujo desempenho
 já é conhecidamente bom (\emph{exploitation vs. exploration}). Na decisão sobre
 qual a parcela de recursos computacionais destinada a uma técnica $t$, por
-exemplo, o algoritmo MAB AUC analisa uma porção do histórico de desempenho 
+exemplo, o algoritmo MAB AUC analisa uma parcela do histórico de desempenho 
 dessa técnica, representado pela área sobre uma curva, desenhada durante a
 execução dos testes. Caso a técnica encontre uma solução com desempenho melhor
-do que o desempenho atual, a porção de sua curva de desempenho relacionada a
+do que o desempenho atual, a parcela de sua curva de desempenho relacionada a
 esse instante será desenhada de forma crescente. Caso não encontre uma solução
 melhor do que a atual, é desenhada uma linha paralela ao eixo horizontal. A
 área total da curva de desempenho de uma técnica --- dentro de uma janela de
@@ -726,13 +729,13 @@ são interrompidos pelo AMF e a instância está resolvida.
 Nas últimas três décadas, muitos trabalhos apresentaram sistemas e técnicas 
 para a otimização automática empírica, permitindo a construção de programas e 
 bibliotecas de eficiência portável em diferentes domínios de problemas.
-\citet{bilmes1997} apresentam em 1997 o sistema PHiPAC para otimização
+\citet{bilmes1997} apresentaram em 1997 o sistema PHiPAC para otimização
 automática, dependente da arquitetura, da multiplicação de matrizes. O PHiPAC
 utiliza \emph{scripts} de busca, que geram, compilam e testam os programas
 candidatos, para encontrar a melhor combinação de parâmetros para geração do 
 código de multiplicação de matrizes. Em retrospectiva recente, 
 \citet{bilmes2014phipacretro} explicam como o código gerado pelo PHiPAC atingiu
-desempenho comparável à das bibliotecas para multiplicação de matrizes 
+desempenho comparável ao das bibliotecas para multiplicação de matrizes 
 otimizadas pelos fabricantes de computadores na época, motivando o uso de
 técnicas de otimização automática em diferentes áreas 
 (\citet{demmel2009accelerating}).
