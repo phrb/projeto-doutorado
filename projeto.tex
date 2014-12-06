@@ -153,7 +153,7 @@ solução de instâncias desse problema em uma dada arquitetura.
 
 \newpage
 
-\section{Introdução}
+\section{Introdução} \label{sec:intro}
 
 Recentes avanços na construção de arquiteturas de computador, como
 por exemplo processadores com múltiplos núcleos e novas arquiteturas
@@ -330,12 +330,15 @@ As propriedades da avaliação do desempenho de soluções para diferentes class
 de problema contribuirão para o desenvolvimento e a escolha dos métodos
 que serão utilizados no \emph{autotuner}.
 
-No restante desta seção serão discutidas as estratégias, algoritmos e técnicas
-utilizadas pelos sistemas OpenTuner (Seção \ref{sec:opent}), PetaBricks (Seção
-\ref{sec:peta}
-Alguns detalhes do algoritmo para o \emph{autotuning} utilizado pelo PetaBricks
-são discutidos na Seção \ref{sec:autotuner}, e a estratégia utilizada pelo AMF
-é discutida na Seção \ref{sec:multsel}.
+No restante da Seção \ref{sec:intro}, serão discutidos os algoritmos, técnicas 
+e estratégias utilizadas por alguns sistemas na solução de problemas de 
+\emph{autotuning}. Na Seção \ref{sec:opent}, é discutido o OpenTuner,
+um arcabouço cujo objetivo é permitir a especificação de \emph{autotuners} 
+para diferentes domínios de problema. Na Seção \ref{sec:autotuner}, é discutido
+o sistema PetaBricks e sua implementação de um algoritmo genético para realizar
+o \emph{autotuning}. Na Seção \ref{sec:multsel}, discute-se as estratégias 
+utilizadas pelo sistema AMF, que se baseiam em cálculos de distribuição de 
+recursos computacionais e execução em \emph{portfolio}.
 
 \subsection{OpenTuner} \label{sec:opent}
 
@@ -470,16 +473,16 @@ do \emph{either...or} a cada vez que a primitiva é executada.
 
 \begin{figure}[H]
     \centering
-    \lstinputlisting{./code/Sort.pbcc}
-    \caption{transform\_sort.pbcc}
-    \label{fig:sortpbcc}
+    \lstinputlisting{./code/Sort2.pbcc}
+    \caption{either\_or\_sort.pbcc}
+    \label{fig:sort2pbcc}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \lstinputlisting{./code/Sort2.pbcc}
-    \caption{either\_or\_sort.pbcc}
-    \label{fig:sort2pbcc}
+    \lstinputlisting{./code/Sort.pbcc}
+    \caption{transform\_sort.pbcc}
+    \label{fig:sortpbcc}
 \end{figure}
 
 \subsubsection{Compilador}
@@ -844,13 +847,12 @@ desenvolvidas durante o projeto.
 No primeiro ano serão realizados estudos da literatura relacionada ao projeto,
 visando manter os objetivos orientados aos desenvolvimentos na área e
 estudar novos sistemas. Ainda no primeiro ano, serão estudadas a fundo as 
-implementações dos sistemas PetaBricks, AMF e OpenTuner, com o intuito de 
-analisar e propor possibilidades de aplicação do algoritmo \emph{portfolio} e 
-da solução do dRSSP --- como utilizados no AMF --- na composição das técnicas 
-utilizadas pelos outros dois sistemas na solução do problema do 
-\emph{autotuning}. Inicialmente, serão estudadas as possibilidades de 
-aplicação da estratégia do AMF para o cálculo de distribuições de recursos 
-computacionais entre diferentes heurísticas em três situações:
+implementações dos sistemas PetaBricks, AMF e OpenTuner. O objetivo desse
+estudo é analisar e propor possibilidades de aplicação do algoritmo 
+\emph{portfolio} e da solução do dRSSP na solução do problema do 
+\emph{autotuning}. Inicialmente, serão estudadas as possibilidades de aplicação
+da estratégia do AMF para o cálculo de distribuições de recursos computacionais
+entre diferentes heurísticas em três situações:
 
 \begin{itemize}
     \item Como técnica de \emph{autotuning} independente, implementada 
