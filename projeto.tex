@@ -1,4 +1,4 @@
-\documentclass[a4paper, 11pt]{article}
+\documentclass[a4paper, 12pt]{article}
 
 \usepackage[portuguese]{babel}
 \usepackage[utf8]{inputenc}
@@ -18,7 +18,7 @@
 \usepackage{indentfirst}
 \usepackage[nottoc]{tocbibind}
 \usepackage{listings}
-\usepackage[a4paper,top=2.54cm,bottom=2.0cm,left=2.0cm,right=2.54cm]{geometry}
+\usepackage[a4paper,top=2.0cm,bottom=2.0cm,left=1.83cm,right=2.0cm]{geometry}
 \usepackage[square, sort, comma, numbers]{natbib}
 
 \onehalfspacing
@@ -134,16 +134,16 @@ buscam encontrar escolhas que otimizem o desempenho da solução de um problema
 em diferentes arquiteturas de computador. Os objetivos deste projeto de 
 pesquisa relacionam-se ao estudo das possibilidades das estratégias para 
 Multi-Seleção e execução em algoritmo \emph{portfolio} implementadas no sistema
-AMF, e seu uso como técnicas de \emph{autotuning}.
+AMF e seu uso como técnicas de \emph{autotuning}.
 Essas estratégias serão implementadas como componentes dos sistemas PetaBricks
 e OpenTuner, para a resolução de casos que envolvam problemas de decisão 
 computacionalmente difíceis. 
-Serão também adaptadas à solução do problema do \emph{autotuning online}, e ao 
+Serão também adaptadas à solução do problema do \emph{autotuning online} e ao 
 \emph{autotuning} de problemas de otimização.
 O desempenho das estratégias implementadas será medido em arquiteturas 
-computacionais variadas, e analisado através de um conjunto de 
+computacionais variadas e analisado através de um conjunto de 
 \emph{benchmarks}. As estratégias implementadas devem permitir a especificação
-dos espaços de soluções de um mesmo problema, e a otimização automática da 
+dos espaços de soluções de um mesmo problema e a otimização automática da 
 solução de instâncias desse problema em uma dada arquitetura.
 
 \noindent
@@ -171,7 +171,7 @@ trabalhos procuram explorar de forma mais completa o paralelismo inerente às
 novas arquiteturas computacionais. Esse potencial paralelismo é proveniente de
 diversas características, como por exemplo múltiplos núcleos de processamento, 
 diferentes arquiteturas de memória distribuída, compartilhada (de acesso 
-uniforme, não uniforme), e auxílio de coprocessadores.
+uniforme, não uniforme) e auxílio de coprocessadores.
 
 A estratégia para a otimização automática de um programa pode envolver 
 modelagens da arquitetura alvo, o que exige conhecimentos específicos sobre o 
@@ -183,9 +183,9 @@ desempenho numa dada arquitetura de computador.
 Dentre os trabalhos que implementam estratégias de otimização automática 
 baseadas no processo de busca empírica, alguns compiladores realizam uma 
 calibragem dos parâmetros de compilação (\citet{bilmes1997,whaley1998}) para a
-arquitetura alvo, e utilizam essa calibragem para gerar código otimizado para
+arquitetura alvo e utilizam essa calibragem para gerar código otimizado para
 essa arquitetura. Este processo é feito uma única vez em tempo de instalação
-do sistema, e deve ser repetido em cada nova arquitetura.
+do sistema e deve ser repetido em cada nova arquitetura.
 
 Outros trabalhos (\citet{goldman2012framework,mitcsail-tr:2014,
 vuduc2004}) propõe uma abordagem diferente, que envolve gerar e executar
@@ -197,7 +197,7 @@ Os enormes espaços de busca resultantes da combinação das diferentes formas d
 se implementar um algoritmo para solução de um determinado problema motivam
 a pesquisa e o desenvolvimento de técnicas empíricas de busca. Outros fatores 
 também compõe essa motivação, como a dificuldade de se modelar o impacto no 
-desempenho de pequenas variações na implementação dos algoritmos, e a grande 
+desempenho de pequenas variações na implementação dos algoritmos e a grande 
 quantidade de variáveis de arquitetura e de ambiente envolvidas na execução de 
 um programa.
 
@@ -223,7 +223,7 @@ e um cronograma para seu desenvolvimento.
 
 Ao desenvolver uma solução portável e eficiente para um problema, o
 programador deve considerar, entre outros fatores, as possibilidades
-de implementação dos algoritmos que resolvem o problema, e as otimizações e 
+de implementação dos algoritmos que resolvem o problema e as otimizações e 
 parâmetros disponibilizados pelo compilador.
 A escolha da melhor implementação de um algoritmo e do melhor conjunto de 
 valores para parâmetros de compilação depende em grande parte das arquiteturas
@@ -234,7 +234,7 @@ alvo e resultados de testes que realiza durante o desenvolvimento.
 No entanto, as arquiteturas de computador atuais variam muito, num grande 
 espectro de, por exemplo, tamanhos de \emph{RAM},
 velocidades e modos de acesso a níveis de memória e armazenamento, número de 
-núcleos no processador, e coprocessadores --- \emph{GPU}s, entre outros 
+núcleos no processador e coprocessadores --- \emph{GPU}s, entre outros 
 --- que apresentam ainda sua própria gama de variação. Essa variação é
 ainda maior se considerarmos as arquiteturas de memória com acesso 
 não uniforme.
@@ -249,12 +249,12 @@ conjunto de soluções possíveis.
 Como exemplo para a seleção de implementações diferentes para um mesmo
 problema, considere a multiplicação de matrizes. O melhor algoritmo
 para multiplicação de duas matrizes depende, por exemplo, do tamanho dessas
-matrizes, do tempo de acesso e tamanho de cache do processador, e das 
+matrizes, do tempo de acesso e tamanho de \textit{cache} do processador e das 
 possibilidades para exploração do paralelismo da arquitetura.
 Para ilustrar a seleção de valores para parâmetros de compilação, considere
 a escolha de opções, ou \emph{flags}, de compilação.
 ~\citet{tartara2013heuristics} apresentam um algoritmo para seleção de 
-heurísticas de compilação, e utilizam a seleção de \emph{flags}
+heurísticas de compilação e utilizam a seleção de \emph{flags}
 do GCC para demonstrar o algoritmo, implementado em extensões do PetaBricks e 
 do próprio GCC. 
 O alto número de \emph{flags} disponíveis numa dada arquitetura e as interações
@@ -269,17 +269,17 @@ O problema do \emph{autotuning}, através do processo de escolha algorítmica,
 pode ser descrito da seguinte forma (\citet{ansel2011efficient}):
 
 Considere o conjunto $A$ de algoritmos que resolvem instâncias de um dado 
-problema, o conjunto $S$ de seletores para esses algoritmos, e o conjunto $S_t$
+problema, o conjunto $S$ de seletores para esses algoritmos e o conjunto $S_t$
 de seletores para parâmetros de compilação e configuração no conjunto $B$.
 O seletor $s \in S$ de algoritmos em $A$ consiste em 
 $\overrightarrow{C_s} = [c_{s,1},\dots,c_{s,m-1}] \cup \overrightarrow{A_s} = 
 [\alpha_{s,1},\dots,\alpha_{s,m-1}]$,
 onde cada $c_{s,i} \in \overrightarrow{C_s}$ representa um intervalo 
-relacionado a um tamanho de entrada para a instância, e 
+relacionado a um tamanho de entrada para a instância e 
 determina a execução do algoritmo $\alpha_{s,i} \in \overrightarrow{A_s}, 
 \quad \alpha_{s,i} \in A$ neste intervalo. 
 Além disso, $min(n) \leq c_{s,1} < n < c_{s,m-1} \leq max(n)$,
-onde $n$ é o tamanho da entrada para a instância sendo selecionada, e $m$ 
+onde $n$ é o tamanho da entrada para a instância sendo selecionada e $m$ 
 é determinado pela instância.
 Assim, um seletor $s \in S$ seleciona algoritmos da seguinte forma:
 
@@ -303,11 +303,11 @@ configuração definido para a instância:
 \end{equation*}
 
 Com os seletores $s$ e $s_t$, podemos especificar um programa
-$P_{s,s_t}$, e o objetivo de um \emph{autotuner} ideal é encontrar
+$P_{s,s_t}$ e o objetivo de um \emph{autotuner} ideal é encontrar
 os seletores $s^*,s_{t}^{*}$ que especifiquem o programa $P_{s^*,s_{t}^{*}}$, 
 ou $P^*$, cujo tempo de execução $t^*$ --- representado por $T(P^*,H,n)$ --- 
 é calculado executando-se o programa na arquitetura $H$, com entrada de tamanho
-$n$, e deve satisfazer:
+$n$ e deve satisfazer:
 
 \begin{equation*}
     t^* = T(P^*,H,n) \leq T(P_{s^*,s_{t}^{*}},H,n), \quad \forall s \in S, \quad \forall s_t \in S_t
@@ -358,7 +358,7 @@ técnicas de busca para realizar a otimização, executadas em paralelo.
 Para implementar um \emph{autotuner} através do OpenTuner, deve-se representar
 o domínio do problema a ser otimizado na forma de um espaço de busca, definido 
 por um conjunto de variáveis e seus limites permitidos. As técnicas de busca 
-utilizadas na otimização podem ser escolhidas pela aplicação, e novas técnicas
+utilizadas na otimização podem ser escolhidas pela aplicação e novas técnicas
 podem ser implementadas. O OpenTuner utiliza uma técnica para a 
 distribuição dos recursos computacionais disponíveis entre as 
 diversas técnicas de busca implementadas, chamada de metatécnica.
@@ -370,7 +370,7 @@ implementadas para cada aplicação.
 Dentre as técnicas de busca já disponíveis no OpenTuner estão a busca 
 aleatória, a evolução diferencial e o método Nelder-Mead. Esse conjunto
 de técnicas, chamado de \emph{ensemble}, pretende ter bom desempenho em espaços
-de busca bem variados, e pode ser ajustado para cada aplicação. Por padrão, o 
+de busca bem variados e pode ser ajustado para cada aplicação. Por padrão, o 
 OpenTuner utiliza uma adaptação da técnica MAB AUC (\emph{Multi Armed Bandit 
 with sliding window, Area Under the Curve credit assignment}), como apresentada
 em \citet{pacula2012bandit}, como metatécnica para distribuição de recursos 
@@ -400,7 +400,7 @@ ser escrito:
 \end{equation*}
 
 Onde $V_{t,i} = 1$ caso a solução encontrada pela técnica $t$ no instante
-$i$ teve desempenho melhor que a melhor técnica nesse instante, e 
+$i$ teve desempenho melhor que a melhor técnica nesse instante e 
 $V_{t,i} = 0$ caso contrário. O resultado de $AUC_t$ é então utilizado para
 determinar qual técnica de busca será utilizada para realizar a busca atual.
 A técnica $t$ que maximizar o MAB AUC realizará o teste atual. O MAB AUC é
@@ -419,7 +419,7 @@ foi aplicada durante a janela.
 
 O sistema PetaBricks (\citet{ansel2009petabricks, ansel2014phd, 
 ansel:xrds:2010, mitcsail-tr:2014})
-consiste em uma linguagem, um compilador, e um ambiente de execução,
+consiste em uma linguagem, um compilador e um ambiente de execução,
 e seu objetivo é encontrar uma sequência de aplicação de algoritmos 
 para a solução de um mesmo problema que especifique um programa com o melhor 
 desempenho na arquitetura alvo, através de uma busca empírica num espaço
@@ -438,7 +438,7 @@ execução na arquitetura alvo.
 
 A linguagem do sistema PetaBricks não possui mecanismos para controle do fluxo
 de execução do programa. É possível especificar apenas modos de solução e 
-condições de parada, e o fluxo de execução entre esses modos será determinado 
+condições de parada e o fluxo de execução entre esses modos será determinado 
 pelo processo de otimização.
 Tomando como exemplo o problema da ordenação de vetores, um programa no
 PetaBricks pode utilizar a primitiva \emph{either...or} 
@@ -455,7 +455,7 @@ memória correspondente à entrada, saída e intermediários usados na
 As possíveis escolhas de algoritmos feitas pelo programador são expostas 
 em \emph{rules} dentro de uma \emph{transform}, que definem um algoritmo
 para tratar determinada região de dados. O cabeçalho de uma \emph{rule} pode
-conter argumentos para variáveis de entrada, saída, e possíveis restrições sua 
+conter argumentos para variáveis de entrada, saída e possíveis restrições sua 
 para aplicação, codificados pelas primitivas \emph{from}, \emph{to} e 
 \emph{where}.
 
@@ -464,27 +464,27 @@ definidas diversas \emph{rules} para a ordenação de subvetores, que
 são utilizadas pela \emph{transform} Sort para ordenar um vetor. Após a
 compilação, o resultado é um programa que executa uma combinação dos dois
 métodos de ordenação implementados, de acordo com o tamanho do subvetor a
-ser ordenado, e dependente da máquina onde foi compilado. No entanto, esperamos
-que o programa execute a regra QuickSort para subvetores grandes, e a 
+ser ordenado e dependente da máquina onde foi compilado. No entanto, esperamos
+que o programa execute a regra QuickSort para subvetores grandes e a 
 regra InsertionSort quando o tamanho for menor, por conta de características
 inerentes a esses algoritmos.
 
 A primitiva \emph{either...or} permite definir explicitamente um espaço
-de algoritmos, e cabe ao \emph{autotuner} selecionar uma dentre as cláusulas
+de algoritmos e cabe ao \emph{autotuner} selecionar uma dentre as cláusulas
 do \emph{either...or} a cada vez que a primitiva é executada.
-
-\begin{figure}[H]
-    \centering
-    \lstinputlisting{./code/Sort2.pbcc}
-    \caption{either\_or\_sort.pbcc}
-    \label{fig:sort2pbcc}
-\end{figure}
 
 \begin{figure}[H]
     \centering
     \lstinputlisting{./code/Sort.pbcc}
     \caption{transform\_sort.pbcc}
     \label{fig:sortpbcc}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \lstinputlisting{./code/Sort2.pbcc}
+    \caption{either\_or\_sort.pbcc}
+    \label{fig:sort2pbcc}
 \end{figure}
 
 \subsubsection{Compilador}
@@ -533,7 +533,7 @@ componentes e os dados que utilizam no processo de compilação.
 A primeira tarefa do compilador é fazer a análise sintática do código fonte, 
 determinando as regiões --- intervalos no tamanho da entrada, por exemplo ---
 onde cada \emph{rule} pode ser aplicada. Essas regiões são calculadas à partir
-de inferências sobre o código fonte, e podem ser definidas pelo programador
+de inferências sobre o código fonte e podem ser definidas pelo programador
 através da primitiva \emph{where}. Com essa informação o compilador pode 
 construir um grafo de dependências para as escolhas algorítmicas,
 que é codificado no programa em C++ gerado, e será utilizado pelo ambiente de
@@ -552,7 +552,7 @@ O \emph{autotuner} do PetaBricks realiza a busca pela melhor solução de
 determinado problema, representada por uma combinação dos algoritmos 
 especificados pelo programador. O \emph{INCREA}~\citet{ansel2011efficient} é o 
 algoritmo genético responsável por gerar e avaliar as possíveis soluções 
-no \emph{autotuner}, e faz isso de maneira incremental, começando
+no \emph{autotuner} e faz isso de maneira incremental, começando
 o processo de seleção sobre codificações mais simples de solução e utilizando 
 os resultados obtidos para orientar a busca sobre codificações mais complexas.
 
@@ -651,12 +651,12 @@ algoritmos candidatos para a instância, que podem ser paralelos ou sequenciais.
 Depois, calcula a distribuição de recursos para os algoritmos selecionados, 
 baseando-se nos resultados de desempenho dos algoritmos na instância. 
 Finalmente, os algoritmos selecionados são executados concorrentemente, 
-seguindo a distribuição calculada na segunda fase, e quando qualquer um
+seguindo a distribuição calculada na segunda fase e quando qualquer um
 deles resolver a instância, os outros são interrompidos e a execução da
 aplicação do AMF termina. A Multi-Seleção no AMF pode ser descrita da
 seguinte forma (\citet{goldman2012framework}):
 
-Considere o conjunto $I$ de instâncias de um problema, e as instâncias $i_k \in
+Considere o conjunto $I$ de instâncias de um problema e as instâncias $i_k \in
 I, \quad 0 \leq k < n$, onde $n$ é o número de instâncias especificadas. 
 Considere também o conjunto $A$, de algoritmos candidatos para solução da
 instância $i_k$. O AMF seleciona um conjunto $A_{i_k} \subseteq A$ para
@@ -668,7 +668,7 @@ respectivamente.
 
 O AMF pode operar em dois modos de seleção. O modo \emph{offline}
 seleciona o conjunto $A_{i} = A, \forall i \in I$, fazendo com que
-$T_s(i) + T_{rs}(i)$ seja constante, e com que $T(i)$ dependa mais
+$T_s(i) + T_{rs}(i)$ seja constante e com que $T(i)$ dependa mais
 do tempo de execução do \emph{portfolio}. No modo \emph{online},
 a seleção do conjunto $A_{i_k} \subseteq A$ tem como objetivo minimizar
 $T_{ep}(i_k)$ através da seleção de algoritmos mais eficientes, mesmo
@@ -680,11 +680,11 @@ Depois de selecionados os algoritmos para solução de uma dada instância $i$,
 é feito o cálculo da distribuição dos recursos computacionais disponíveis entre
 os algoritmos. A distribuição é calculada por aproximações de soluções para
 o dRSSP, um problema NP-difícil. \citet{bougeret2011approximating} prova a 
-complexidade do dRSSP, e descreve o problema da seguinte forma:
+complexidade do dRSSP e descreve o problema da seguinte forma:
 
 Considere o conjunto $A = \{\alpha_1, \dots, \alpha_k\}$ de $k$ algoritmos que
 resolvem instâncias de um determinado problema, o conjunto $I = \{i_1, \dots, 
-i_n\}$ de $n$ instâncias do problema, e o conjunto $R = \{0, \dots, m\}$ com
+i_n\}$ de $n$ instâncias do problema e o conjunto $R = \{0, \dots, m\}$ com
 $m$ recursos computacionais idênticos, onde pode-se executar algoritmos de $A$
 em instâncias $i \in I$. Define-se $C(\alpha_i,i_j,r)$, o custo
 de um algoritmo $\alpha_i \in A$ na instância $i_j \in I$, com $r \in R$ 
@@ -771,7 +771,7 @@ modelagem, apresentando um modelo com desempenho comparável à busca empírica.
 \citet{vuduc2004} apresentam e comparam alguns
 modelos estatísticos que auxiliam no processo de busca empírica.
 \citet{cooper2002compilation} discutem a importância da
-ordem em que as otimizações de compilação são aplicadas, e apresentam
+ordem em que as otimizações de compilação são aplicadas e apresentam
 um protótipo para seleção e adaptação dessa ordem.
 Em \citet{cooper2002adaptive}, defende-se o uso de métodos de busca
 por seleção aleatória e descreve-se um arcabouço para implementação
@@ -820,7 +820,7 @@ Será submetida uma proposta ao programa BEPE durante o projeto de
 pesquisa, com objetivo de se realizar um estágio no exterior. As
 instituições contatadas serão o \emph{Massachusetts Institute of Technology}
 (Estados Unidos), a \emph{University of Illinois at Urbana-Champaign} 
-(Estados Unidos), e o \emph{Institut National Polythecnique De Grenoble} 
+(Estados Unidos) e o \emph{Institut National Polythecnique De Grenoble} 
 (França).
 
 
@@ -836,17 +836,17 @@ processo de desenvolvimento.
 
 Depois, será iniciado o ciclo de desenvolvimento das estruturas especificadas
 para a implementação dos objetivos, que compreende a implementação, 
-testes de funcionalidades, testes de desempenho, e correções de erros.
+testes de funcionalidades, testes de desempenho e correções de erros.
 Durante a fase de desenvolvimento, serão utilizadas algumas das estratégias
 empregadas por metodologias ágeis (\citet{beck2000extreme}), como o 
 desenvolvimento através de iterações, com prévia avaliação da dificuldade e 
 distribuição das tarefas.
 
 Os testes de desempenho consistirão na obtenção de dados empíricos para o tempo
-de otimização das soluções de problemas computacionalmente difíceis, e para o 
+de otimização das soluções de problemas computacionalmente difíceis e para o 
 tempo de execução dessas soluções já otimizadas. Um conjunto de instâncias de 
 problemas computacionalmente difíceis será escolhido para compor
-um \emph{benchmark} de testes de desempenho, e devem incluir, entre outros, 
+um \emph{benchmark} de testes de desempenho e devem incluir, entre outros, 
 instâncias do problema do \emph{bin packing} (\citet{de1981bin}) e do problema 
 de satisfazibilidade booleana (semelhantes aos experimentos realizados em 
 \citet{goldman2011optimizing}), problemas já utilizados na avaliação de 
@@ -886,7 +886,7 @@ solução do problema do \emph{autotuning online} e no caso não restrito a
 problemas de decisão computacionalmente difíceis. Os conhecimentos adquiridos
 durante a revisão bibliográfica do primeiro ano permitirão realizar no segundo 
 ano uma busca na literatura por possíveis outros sistemas de referência para o 
-projeto. Durante a duração do programa de Doutorado Direto, e passado o tempo 
+projeto. Durante a duração do programa de Doutorado Direto e passado o tempo 
 mínimo de matrícula exigido pela FAPESP, submeteremos um projeto de pesquisa 
 para estágio no exterior através do programa BEPE.
 
@@ -899,7 +899,7 @@ fortemente dependentes dos resultados dos anos anteriores.
 
 Serão realizados experimentos com todas as implementações, através da análise 
 de seu desempenho. Utilizaremos, a princípio, os \emph{benchmarks} dos sistemas
-PetaBricks e OpenTuner, e o \emph{benchmark} para problemas computacionalmente
+PetaBricks e OpenTuner e o \emph{benchmark} para problemas computacionalmente
 difíceis, que será elaborado como descrito na seção \ref{sec:met}. 
 Os testes e estudos de desempenho das implementações também serão realizados 
 em diferentes arquiteturas computacionais, como por exemplo arquiteturas 
@@ -908,7 +908,7 @@ heterogêneas e \emph{multicore}.
 Finalmente, serão feitas implementações de abstrações de alto
 nível, que deverão encapsular as implementações dos conceitos estudados 
 anteriormente. Essas abstrações devem facilitar a uso das implementações 
-realizadas como biblioteca, e podem tomar a forma de um arcabouço para o 
+realizadas como biblioteca e podem tomar a forma de um arcabouço para o 
 \emph{autotuning online} de programas.
 
 \subsubsection{Sobre o Candidato}
