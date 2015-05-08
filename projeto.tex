@@ -837,20 +837,20 @@ instituições contatadas serão o \emph{Massachusetts Institute of Technology}
 
 Nesta subseção são apresentados alguns resultados da utilização do OpenTuner
 para implementar um \emph{auto-tuner} de combinações de resolvedores de
-SAT. São utilizados sete resolvedores\footnote{http://www.satcompetition.org} 
-e um benchmark com cem instâncias\footnote{http://www.cs.ubc.ca/~hoos/SATLIB/Benchmarks/SAT/RND3SAT/uf100-430.tar.gz} 
+SAT. São utilizados sete resolvedores\footnote{http://www.satcompetition.org}
+e um benchmark com cem instâncias\footnote{http://www.cs.ubc.ca/~hoos/SATLIB/Benchmarks/SAT/RND3SAT/uf100-430.tar.gz}
 do problema SAT.
 
-A solução sequencial do conjunto de instâncias por diferentes resolvedores é 
+A solução sequencial do conjunto de instâncias por diferentes resolvedores é
 representada por um vetor $C = \{s_i\}, s_i \in [0,6], i \in [0,99]$, onde
 cada $s_i$ identifica o resolvedor utilizado na solução da instância $i$.
 
-O \emph{auto-tuner} 
+O \emph{auto-tuner}
 implementado\footnote{https://github.com/phrb/sat-opentuner} realiza a busca no
-espaço definido por essa codificação, e a seguir são apresentadas comparações 
-da solução encontrada pelo \emph{auto-tuner}, os resolvedores individuais, e 
-um algoritmo de busca força bruta, que executa todos os resolvedores em todas 
-as instâncias e escolhe o resolvedor com menor média de tempos de execução 
+espaço definido por essa codificação, e a seguir são apresentadas comparações
+da solução encontrada pelo \emph{auto-tuner}, os resolvedores individuais, e
+um algoritmo de busca força bruta, que executa todos os resolvedores em todas
+as instâncias e escolhe o resolvedor com menor média de tempos de execução
 para cada instância.
 
 \section{Metodologia} \label{sec:met}
@@ -890,14 +890,14 @@ resultados das pesquisas e implementações das estratégias do AMF serão
 comparados com outros sistemas para \emph{auto-tuning} em diferentes domínios.
 
 As contribuições das estratégias implementadas serão validadas através da
-diminuição do tempo de otimização e do desempenho das soluções encontradas.
-A análise dos resultados será feita através da aplicação do \emph{benchmark}
-descrito nesta Seção, que conterá problemas em alguns dos diversos domínios
-abordados pelos sistemas descritos na Seção \ref{sec:trabrel}, e por outros
-sistemas de referência que serão encontrados durante a pesquisa. É importante
-ressaltar que não existem ainda na literatura sistemas para \emph{auto-tuning}
-voltados especificamente aos domínios de problemas computacionalmente difíceis
-e de decisão.
+diminuição do tempo de otimização e do tempo de execução das soluções
+encontradas. A análise dos resultados será feita através da aplicação do
+\emph{benchmark} descrito nesta Seção, que conterá problemas em alguns dos
+diversos domínios abordados pelos sistemas descritos na Seção
+\ref{sec:trabrel}, e por outros sistemas de referência que serão encontrados
+durante a pesquisa. É importante ressaltar que não existem ainda na literatura
+sistemas para \emph{auto-tuning} voltados especificamente aos domínios de
+problemas computacionalmente difíceis e de decisão.
 
 \section{Cronograma} \label{sec:sched}
 
@@ -940,13 +940,13 @@ otimização baseadas no algoritmo \emph{portfolio}. O cronograma menos detalhad
 para esses dois anos resulta das atividades planejadas para esse período serem
 fortemente dependentes dos resultados dos anos anteriores.
 
-Serão realizados experimentos com todas as implementações, através da análise
-de seu desempenho. Utilizaremos, a princípio, os \emph{benchmarks} dos sistemas
-PetaBricks e OpenTuner e o \emph{benchmark} para problemas computacionalmente
-difíceis, que será elaborado como descrito na seção \ref{sec:met}.
-Os testes e estudos de desempenho das implementações também serão realizados
-em diferentes arquiteturas computacionais, como por exemplo arquiteturas
-heterogêneas e \emph{multi-core}.
+Serão realizadas comparações entre todas as implementações, através da análise
+de seu tempo de otimização e desempenho. Utilizaremos, a princípio, os
+\emph{benchmarks} dos sistemas PetaBricks e OpenTuner e o \emph{benchmark} para
+problemas computacionalmente difíceis, que será elaborado como descrito na
+seção \ref{sec:met}. Os testes e estudos de desempenho das implementações
+também serão realizados em diferentes arquiteturas computacionais, como por
+exemplo arquiteturas heterogêneas e \emph{multi-core}.
 
 Finalmente, serão feitas implementações de abstrações de alto
 nível, que deverão encapsular as implementações dos conceitos estudados
