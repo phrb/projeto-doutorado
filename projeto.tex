@@ -18,7 +18,7 @@
 \usepackage{indentfirst}
 \usepackage[nottoc]{tocbibind}
 \usepackage{listings}
-\usepackage[a4paper,top=2.0cm,bottom=2.0cm,left=1.83cm,right=2.0cm]{geometry}
+\usepackage[a4paper,top=1.60cm,bottom=1.60cm,left=1.43cm,right=1.60cm]{geometry}
 \usepackage[square, sort, comma, numbers]{natbib}
 
 \onehalfspacing
@@ -37,7 +37,7 @@
     rounded corners,
     draw=black, very thick,
     text width=8.3em,
-    minimum height=3em,
+    minimum height=1em,
     text centered,
     on chain},
   fillchain/.style={
@@ -46,7 +46,7 @@
     fill=blue!30,
     draw=black, very thick,
     text width=8.3em,
-    minimum height=3em,
+    minimum height=1em,
     text centered,
     on chain},
   line/.style={draw, thick, <-},
@@ -54,10 +54,10 @@
     tape,
     top color=white,
     bottom color=blue!50!black!60!,
-    minimum width=8em,
+    minimum width=4em,
     draw=blue!40!black!90, very thick,
     text width=8.3em,
-    minimum height=3.5em,
+    minimum height=1.5em,
     text centered,
     on chain},
   every join/.style={->, thick,shorten >=1pt},
@@ -491,7 +491,7 @@ do \emph{either...or} a cada vez que a primitiva é executada.
 
 \begin{figure}[H]
     \begin{tikzpicture}
-        [node distance=.76cm,
+        [node distance=.36cm,
         start chain=going right]
         \footnotesize
             \node[fillchain, join] (compiler) {Compilador};
@@ -512,7 +512,7 @@ do \emph{either...or} a cada vez que a primitiva é executada.
             \end{scope}
             \draw[|-,-|,->, thick,] (arqconf.south) |-+(0,-1em)-| (exe.north);
             \draw[|-,-|,->, thick,] (envexe.north) |-+(0,0)-| (exe.south);
-            \draw[|-,-|,<->, thick,] (bin.north) |-+(0,2em)-| (auto.south);
+            \draw[|-,-|,<->, thick,] (bin.north) |-+(0,0.2em)-| (auto.south);
             \draw[|-,-|,<->, thick,] (auto.north) |-+(0,2em)-| (arqconf.north);
             \draw[|-,-|,->, thick,] (pbcc.south) |-+(0,0)-| (compiler.north);
     \end{tikzpicture}
@@ -614,7 +614,7 @@ utilizadas na otimização da distribuição de recursos, respectivamente. A Fig
 
 \begin{figure}[H]
     \begin{tikzpicture}
-        [node distance=.5cm,
+        [node distance=.3cm,
         start chain=going right]
         \footnotesize
             \node[punktchain] (port) {AMF\_Portfolio};
@@ -632,8 +632,8 @@ utilizadas na otimização da distribuição de recursos, respectivamente. A Fig
             \draw[|-,-|,-, thick,] (port.east) |-+(0,0)-| (learner.west);
             \draw[|-,-|,-, thick,] (learner.east) |-+(0,0)-| (opt.west);
             \draw[|-,-|,-, thick,] (learner.north) |-+(0,0)-| (solver.south);
-            \draw[|-,-|,-, thick,] (port.north) |-+(0,1)-| (solver.west);
-            \draw[|-,-|,-, thick,] (opt.north) |-+(0,1)-| (solver.east);
+            \draw[|-,-|,-, thick,] (port.north) |-+(0,0.6)-| (solver.west);
+            \draw[|-,-|,-, thick,] (opt.north) |-+(0,0.6)-| (solver.east);
             \draw[|-,-|,-, thick,] (port.south) |-+(0,0)-| (alg.north);
             \draw[|-,-|,-, thick,] (alg.east) |-+(0,0)-| (learner.south);
             \draw[|-,-|,-, thick,] (bench.west) |-+(0,0)-| (learner.south);
@@ -833,6 +833,25 @@ instituições contatadas serão o \emph{Massachusetts Institute of Technology}
 (Estados Unidos) e o \emph{Institut National Polythecnique De Grenoble}
 (França).
 
+\subsection{Resultados Preliminares}
+
+Nesta subseção são apresentados alguns resultados da utilização do OpenTuner
+para implementar um \emph{auto-tuner} de combinações de resolvedores de
+SAT. São utilizados sete resolvedores\footnote{http://www.satcompetition.org} 
+e um benchmark com cem instâncias\footnote{http://www.cs.ubc.ca/~hoos/SATLIB/Benchmarks/SAT/RND3SAT/uf100-430.tar.gz} 
+do problema SAT.
+
+A solução sequencial do conjunto de instâncias por diferentes resolvedores é 
+representada por um vetor $C = \{s_i\}, s_i \in [0,6], i \in [0,99]$, onde
+cada $s_i$ identifica o resolvedor utilizado na solução da instância $i$.
+
+O \emph{auto-tuner} 
+implementado\footnote{https://github.com/phrb/sat-opentuner} realiza a busca no
+espaço definido por essa codificação, e a seguir são apresentadas comparações 
+da solução encontrada pelo \emph{auto-tuner}, os resolvedores individuais, e 
+um algoritmo de busca força bruta, que executa todos os resolvedores em todas 
+as instâncias e escolhe o resolvedor com menor média de tempos de execução 
+para cada instância.
 
 \section{Metodologia} \label{sec:met}
 
