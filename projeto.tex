@@ -8,6 +8,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{caption}
 \usepackage{float}
 \usepackage{a4wide}
 \usepackage{multicol}
@@ -18,7 +19,8 @@
 \usepackage{indentfirst}
 \usepackage[nottoc]{tocbibind}
 \usepackage{listings}
-\usepackage[a4paper,top=1.60cm,bottom=1.60cm,left=1.43cm,right=1.60cm]{geometry}
+\usepackage[font=footnotesize,labelfont=bf]{caption}
+\usepackage[a4paper,top=1.60cm,bottom=1.60cm,left=1.37cm,right=1.45cm]{geometry}
 \usepackage[square, sort, comma, numbers]{natbib}
 
 \onehalfspacing
@@ -838,27 +840,60 @@ instituições contatadas serão o \emph{Massachusetts Institute of Technology}
 Nesta subseção são apresentados alguns resultados da utilização do OpenTuner
 para implementar um \emph{auto-tuner} de combinações de resolvedores de
 SAT. São utilizados sete resolvedores\footnote{http://www.satcompetition.org}
-e um benchmark com cem instâncias\footnote{http://www.cs.ubc.ca/~hoos/SATLIB/Benchmarks/SAT/RND3SAT/uf100-430.tar.gz}
+e um benchmark com cem
+instâncias\footnote{http://www.cs.ubc.ca/~hoos/SATLIB/Benchmarks/SAT/RND3SAT/uf100-430.tar.gz}
 do problema SAT.
 
 A solução sequencial do conjunto de instâncias por diferentes resolvedores é
 representada por um vetor $C = \{s_i\}, s_i \in [0,6], i \in [0,99]$, onde
 cada $s_i$ identifica o resolvedor utilizado na solução da instância $i$.
-
 O \emph{auto-tuner}
 implementado\footnote{https://github.com/phrb/sat-opentuner} realiza a busca no
-espaço definido por essa codificação, e a seguir são apresentadas comparações
-da solução encontrada pelo \emph{auto-tuner}, os resolvedores individuais, e
-um algoritmo de busca força bruta, que executa todos os resolvedores em todas
-as instâncias e escolhe o resolvedor com menor média de tempos de execução
-para cada instância.
+espaço definido por essa codificação, gerando e medindo tempo de execução de
+diferentes combinações de resolvedores para o conjunto de instâncias.
+
+A Figura \ref{fig:cmp_brute_tuned} apresenta os desempenhos dos resolvedores
+individuais, da solução ótima, e da soluções encontradas
+pelo \emph{auto-tuner}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{brute_tuned.png}
-    \caption{Awesome Image}
-    \label{fig:awesome_image}
+    \includegraphics[width=0.5\textwidth]{brute_tuned.eps}
+    \captionsetup{width=0.6\textwidth}
+    \caption{Desempenho dos Resolvedores, Combinações e Solução Ótima.
+             (Média de 30 amostras, as barras de erro representam
+             os intervalos de confiança)}
+    \label{fig:cmp_brute_tuned}
 \end{figure}
+
+Cada ponto na Figura \ref{fig:cmp_brute_tuned} representa a média de 30
+execuções do resolvedor correspondente. As barras de erro representam
+o intervalo de confiança, calculado através da função \texttt{smean.cl.boot()}
+do pacote para a linguagem R \texttt{Hmisc}, que não assume uma distribuição
+normal para os valores das amostras.
+
+A solução ótima para o conjunto foi encontrada através de um algoritmo de busca
+exaustiva, que executa todos os resolvedores em todas as instâncias e escolhe
+o resolvedor com menor média de tempos de execução para cada instância, em 30
+execuções.
+
+A busca exaustiva leva cerca de 840 segundos, e os resolvedores
+\textit{Inteiros} e \textit{Vetor} representam as soluções encontradas pelo
+\emph{auto-tuner} nesse mesmo tempo.
+
+O resolvedor \textit{Inteiros} é a
+combinação encontrada pelo \emph{auto-tuner} quando o problema foi codificado
+como um conjunto de 100 inteiros. O resolvedor \textit{Vetor} é a combinação
+encontrada quando o problema foi codificado como um vetor de inteiros. A
+diferença na codificação permite ao \emph{OpenTuner} aplicar diferentes
+heurísticas de otimização, e é possível ver que o \emph{auto-tuner}
+implementado encontrou uma solução melhor para a codificação em vetor.
+
+Apesar dessa diferença, o \emph{auto-tuner} não encontrou soluções
+próximas à ótima no mesmo intervalo de tempo tomado pela busca exaustiva.
+Assim, constatamos que existem possibilidades para o aprimoramento do conjunto
+de técnicas de busca utilizado pelo \emph{OpenTuner}, para este tipo 
+de problema.
 
 \section{Metodologia} \label{sec:met}
 
