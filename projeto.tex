@@ -978,9 +978,18 @@ para estágio no exterior através do programa BEPE.
 No terceiro e quarto anos do programa de Doutorado Direto continuarão sendo
 implementadas as técnicas estudadas nos anos anteriores. Serão implementadas
 soluções para o problema do \emph{auto-tuning online} e de problemas de
-otimização baseadas no algoritmo \emph{portfolio}. O cronograma menos detalhado
-para esses dois anos resulta das atividades planejadas para esse período serem
-fortemente dependentes dos resultados dos anos anteriores.
+otimização baseadas no algoritmo \emph{portfolio}. Nos anos finais do programa
+serão estudadas e implementadas possibilidades de otimização automática
+que aproveitem o potencial da computação em nuvem para simular arquiteturas
+de alto desempenho e custo. A utilização desses simuladores tem como objetivo
+oferecer a possibilidade de se realizar o \emph{auto-tuning} empírico em 
+arquiteturas de alto desempenho e de difícil acesso.
+
+Nos dois últimos anos também serão realizados estudos e implementações
+relacionados ao uso de técnicas de Aprendizado de Máquina no processo de
+otimização automática e empírica, como visto em 
+\citet{lagoudakis2000reinforcement}, onde modelos de Aprendizado de Máquina
+são utilizados para selecionar parâmetros dos algoritmos de otimização.
 
 Serão realizadas comparações entre todas as implementações, através da análise
 de seu tempo de otimização e desempenho. Utilizaremos, a princípio, os
@@ -1022,8 +1031,8 @@ Também em 2014, o candidato publicou o trabalho realizado durante a graduação
     \cellcolor{gray!96} Estudo das Possibilidades das Técnicas do AMF  & \cellcolor{gray!14} Estudo do algoritmo \emph{portfolio} no \emph{auto-tuning online} & \multicolumn{2}{p{7cm}|}{\cellcolor{gray!96} Implementação do algoritmo \emph{portfolio} no contexto do \emph{auto-tuning online} e de problemas de otimização} \\
     \cellcolor{gray!84} Estudo da Implementação do PetaBricks & \cellcolor{gray!28} Implementação das possibilidades estudadas & \multicolumn{2}{p{7cm}|}{\cellcolor{gray!70} Implementação de abstrações alto nível para as implementações já realizadas} \\
     \cellcolor{gray!70} Estudo da Implementação do AMF & \cellcolor{gray!42} Busca por novos sistemas de referência & \multicolumn{2}{p{7cm}|}{\cellcolor{gray!56} Aplicação de benchmarks e testes de desempenho em diferentes arquiteturas} \\
-    \cellcolor{gray!56} Estudo da Implementação do OpenTuner & \cellcolor{gray!70} Estudo do algoritmo \emph{portfolio} no \emph{auto-tuning} de problemas de otimização & \multicolumn{2}{l|}{} \\
-    \cellcolor{gray!42} Revisão Bibliográfica &  \cellcolor{gray!84} Submissão de proposta ao BEPE & \multicolumn{2}{l|}{} \\
+    \cellcolor{gray!56} Estudo da Implementação do OpenTuner & \cellcolor{gray!70} Estudo do algoritmo \emph{portfolio} no \emph{auto-tuning} de problemas de otimização & \multicolumn{2}{p{7cm}|}{\cellcolor{gray!42} Estudo e implementação de \emph{autotuners} em simuladores de arquiteturas computacionais, utilizando computação em nuvem} \\
+    \cellcolor{gray!42} Revisão Bibliográfica &  \cellcolor{gray!84} Submissão de proposta ao BEPE & \multicolumn{2}{p{7cm}|}{\cellcolor{gray!28} Aplicação de técnicas de Aprendizado de Máquina ao problema do \emph{autotuning}} \\
     \cellcolor{gray!28} 2 disciplinas do programa por semestre &  \cellcolor{gray!96} 2 disciplinas do programa por semestre & \multicolumn{2}{l|}{} \\
     \cellcolor{gray!14} Escolha de Benchmarks de Referência & \multicolumn{3}{l|}{} \\
     \hline
@@ -1033,7 +1042,6 @@ Também em 2014, o candidato publicou o trabalho realizado durante a graduação
     \label{fig:sched}
 \end{figure}
 
-\newpage
 \bibliographystyle{plainnat}
 \bibliography{projeto}
 
