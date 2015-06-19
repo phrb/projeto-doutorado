@@ -842,7 +842,18 @@ para implementar um \emph{auto-tuner} de combinações de resolvedores de
 SAT. São utilizados sete resolvedores\footnote{http://www.satcompetition.org}
 e um benchmark com cem
 instâncias\footnote{http://www.cs.ubc.ca/~hoos/SATLIB/Benchmarks/SAT/RND3SAT/uf100-430.tar.gz}
-do problema SAT.
+do problema SAT. 
+
+Esta subseção também apresenta sucintamente e referencia um 
+artigo (\citet{bruel2015autotuningGPU}) escrito durante este 
+semestre, que foi submetido à conferência \emph{SBAC/PAD 2015}. 
+O trabalho foi realizado em conjunto com um
+dos membros do grupo de pesquisa, e com o orientador do candidato. O trabalho
+analisa os ganhos de desempenho atingidos ao otimizar, através da técnica de
+\emph{autotuning}, uma seleção de parâmetros de compilação para aplicações GPU.
+No artigo, que está anexado à proposta de reconsideração, implementamos 
+um \emph{autotuner} utilizando o arcabouço \emph{OpenTuner}, e atingimos
+ganhos de até 30\% em comparação às otimizações de alto nível do compilador.
 
 A solução sequencial do conjunto de instâncias por diferentes resolvedores é
 representada por um vetor $C = \{s_i\}, s_i \in [0,6], i \in [0,99]$, onde
